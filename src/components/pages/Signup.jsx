@@ -8,6 +8,7 @@ import { ToastContainer, toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import toast_msg from '../toast/toast'
 import Image from '../Image'
+import '../../App.css'
 
 
 
@@ -121,6 +122,7 @@ function Signup() {
               <Button
               type='submit'
               btnText='Submit'
+              class='auth-btn'
               />
             
             </div>

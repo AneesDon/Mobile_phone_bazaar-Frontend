@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Image from '../Image'
 import Input from '../Input'
+import '../../App.css'
 import Button from '../Button'
 import { useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
@@ -87,6 +88,7 @@ function EnterOTP() {
                       <Button
                       btnText='Verify'
                       type='submit'
+                      class='auth-btn'
                       />
                       </div>
                     </div>

@@ -11,6 +11,9 @@ import { login } from "../../../store/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "../Image";
 import Loader from "../loaders/Loader";
+import '../../App.css'
+
+
 
 function Login() {
 
@@ -39,7 +42,7 @@ function Login() {
           console.log(res);
           if(res.status == 200){
             setLoading(false)
-            sessionStorage.setItem('user',res.data.username)
+            localStorage.setItem('user', JSON.stringify({username: res.data.username, active: true}));
             dispatch(login({userData:res.data.username, token:res.data.token}))
             navigate('/')
           } 
@@ -115,7 +118,7 @@ function Login() {
                       Forget Password?
                     </p>
                     </Link>
-                    <Button type="submit" btnText="Submit" />
+                    <Button type="submit" btnText="Submit" class='auth-btn' />
                   </div>
                 </div>
               </form>

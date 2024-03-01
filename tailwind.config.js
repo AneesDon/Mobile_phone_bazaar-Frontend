@@ -1,12 +1,28 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+
+
+const withMT = require("@material-tailwind/react/utils/withMT");
+export default  {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      display: ["group-hover"]
+    },
   },
   plugins: [],
 }
 
+
+// module.exports = withMT({
+//   content: [
+//     "./index.html",
+//     "./src/**/*.{js,ts,jsx,tsx}",
+//   ],
+//   theme: {
+//     extend: {},
+//   },
+//   plugins: [],
+// });

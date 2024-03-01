@@ -1,11 +1,23 @@
 import React from 'react'
 import {useSelector} from 'react-redux'
+import Flyer from '../flyer/Flyer'
+import Container from '../Container';
+import ShopByBrand from '../shopbybrand/ShopByBrand';
+
+
+
 function Home() {
 
-  
+
   return (
-   <h1 className='text-3xl font-bold'>Home</h1>
-  )
+    <>
+      <Flyer/>
+      <ShopByBrand/>
+
+      
+
+    </>
+  );
 }
 
 export default Home

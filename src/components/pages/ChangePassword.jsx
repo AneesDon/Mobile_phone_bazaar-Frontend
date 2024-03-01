@@ -9,7 +9,7 @@ import { useSelector,useDispatch } from 'react-redux'
 import axios from 'axios'
 import toast_msg from '../toast/toast'
 import { forgetPassword } from '../../../store/authSlice'
-
+import '../../App.css'
 
 function ChangePassword() {
 
@@ -94,6 +94,7 @@ function ChangePassword() {
                 <Button
                 btnText='Verify'
                 type='Change'
+                class='auth-btn'
                 />
                 </div>
               </div>

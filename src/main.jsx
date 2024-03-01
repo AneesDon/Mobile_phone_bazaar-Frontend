@@ -1,18 +1,24 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
-import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
-import Login from './components/pages/Login.jsx'
-import Signup from './components/pages/Signup.jsx'
-import Home from './components/pages/Home.jsx'
-import store from '../store/store'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import "./index.css";
+import {
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from "react-router-dom";
+import Login from "./components/pages/Login.jsx";
+import Signup from "./components/pages/Signup.jsx";
+import Home from "./components/pages/Home.jsx";
+import store from "../store/store";
 import { Provider } from "react-redux";
-import Authlayer from './components/Authlayer.jsx'
-import Forgetpassword from './components/pages/Forgetpassword.jsx'
-import EnterOTP from './components/pages/EnterOTP.jsx'
-import ChangePassword from './components/pages/ChangePassword.jsx'
-
+import Authlayer from "./components/Authlayer.jsx";
+import Forgetpassword from "./components/pages/Forgetpassword.jsx";
+import EnterOTP from "./components/pages/EnterOTP.jsx";
+import ChangePassword from "./components/pages/ChangePassword.jsx";
+import Layout from "./components/pages/Layout.jsx";
+import About from "./components/pages/About.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,10 +45,13 @@ const router = createBrowserRouter(
         path="/"
         element={
           <Authlayer authentication={true}>
-            <Home />
+            <Layout />
           </Authlayer>
         }
-      />
+      >
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Route>
 
       <Route
         path="/forget-password"
@@ -64,7 +73,7 @@ const router = createBrowserRouter(
         path="/change-password"
         element={
           <Authlayer authentication={false}>
-            <ChangePassword/>
+            <ChangePassword />
           </Authlayer>
         }
       />
@@ -72,8 +81,8 @@ const router = createBrowserRouter(
   )
 );
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-    <Provider store={store}>
-   <RouterProvider router={router} />
-   </Provider> 
-)
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
+);

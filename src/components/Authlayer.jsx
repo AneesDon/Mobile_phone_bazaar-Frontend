@@ -1,34 +1,39 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import {  useSelector } from 'react-redux'
-import Login from './pages/Login'
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-function Authlayer({
-  children, authentication = true
-}) {
-    const [loader,setLoader] = useState(true)
-    const navigate = useNavigate()
-    const authStatus = useSelector(state => state.auth.status)
-    
-    const user = useSelector(state => state.auth.userData)  
-    useEffect(()=>{
+function Authlayer({ children, authentication = true }) {
+    const [loader, setLoader] = useState(true);
+    const [authStatus, setAuthStatus] = useState(false);
+    const navigate = useNavigate();
+    const userActive = JSON.parse(localStorage.getItem('user'));
 
-      if(authentication && authentication !== authStatus){
-        
-        navigate('/login')
-      }else if(!authentication && authStatus != authentication){
-          navigate('/')
-      }
-      setLoader(false)
+    useEffect(() => {
+        if (userActive) {
+            setAuthStatus(true);
+        }
+        setLoader(false);
+    }, [userActive]);
 
-    },[authStatus, navigate, authentication])
+    const user = useSelector(state => state.auth.userData);
 
-  return (
-    loader ? <h1>loading....</h1> : <>{children}</> 
-  )
+    useEffect(() => {
+        if (!loader) {
+            if (authentication && !authStatus) {
+                navigate('/login');
+            } else if (!authentication && authStatus) {
+                navigate('/');
+            }
+        }
+    }, [loader, authStatus, navigate, authentication]);
+
+    return (
+        loader ? <h1>Loading...</h1> : <>{children}</>
+    );
 }
 
-export default Authlayer
+export default Authlayer;
+
 
 
 

@@ -10,6 +10,7 @@ import toast_msg from "../toast/toast";
 import { ToastContainer } from "react-toastify";
 import { forgetPassword } from "../../../store/authSlice";
 import Loader from "../loaders/Loader";
+import '../../App.css'
 
 function Forgetpassword() {
   const [loading, setLoading] = useState(false);
@@ -31,6 +32,7 @@ function Forgetpassword() {
             }
             
           }).catch((res)=>{
+            console.log(res);
             setLoading(false)
             if(res.response){
 
@@ -38,7 +40,7 @@ function Forgetpassword() {
                 toast_msg(res.response.data.msg)
                 setSent(true)
               }else{
-                toast_msg(res.response.data.msg)
+                toast_msg('No User Found')
               }
             }
 
