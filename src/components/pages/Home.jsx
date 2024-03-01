@@ -13,9 +13,11 @@ function Home() {
     <>
       <Flyer/>
       <ShopByBrand/>
-
-      
-
+      <Container>
+        <div >
+        <p className='text-center text-3xl pt-16'>Our Best Seller</p>
+        </div>
+      </Container>
     </>
   );
 }

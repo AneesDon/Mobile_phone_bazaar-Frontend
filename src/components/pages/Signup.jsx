@@ -122,7 +122,7 @@ function Signup() {
               <Button
               type='submit'
               btnText='Submit'
-              class='auth-btn'
+
               />
             
             </div>

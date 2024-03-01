@@ -11,7 +11,7 @@ import { login } from "../../../store/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "../Image";
 import Loader from "../loaders/Loader";
-import '../../App.css'
+// import '../../App.css'
 
 
 
@@ -118,7 +118,7 @@ function Login() {
                       Forget Password?
                     </p>
                     </Link>
-                    <Button type="submit" btnText="Submit" class='auth-btn' />
+                    <Button type="submit" btnText="Submit"/>
                   </div>
                 </div>
               </form>
