@@ -3,6 +3,8 @@ import {useSelector} from 'react-redux'
 import Flyer from '../flyer/Flyer'
 import Container from '../Container';
 import ShopByBrand from '../shopbybrand/ShopByBrand';
+import Button from '../Button';
+import BestSeller from '../bestsellers/BestSeller';
 
 
 
@@ -11,15 +13,14 @@ function Home() {
 
   return (
     <>
-      <Flyer/>
-      <ShopByBrand/>
-      <Container>
-        <div >
-        <p className='text-center text-3xl pt-16'>Our Best Seller</p>
-        </div>
-      </Container>
+      <Flyer />
+      <ShopByBrand />
+      <BestSeller/>
+      
     </>
   );
 }
 
 export default Home
+
+

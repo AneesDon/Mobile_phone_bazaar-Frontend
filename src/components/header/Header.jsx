@@ -1,9 +1,9 @@
-'use client'
 
-import React from 'react'
-import { Menu, X } from 'lucide-react'
+import React, { useState } from 'react'
+import { Menu, X,CircleUserRound, ShoppingCart, LogOut, UserRound  } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 import Corousel from '../corou/Corousel'
+import { Link } from 'react-router-dom'
 
 
 
@@ -21,11 +21,15 @@ const slides = [{
 }
 ]
 
-
+  
 const menuItems = [
   {
     name: 'Home',
     href: '/',
+  },
+  {
+    name: 'Products',
+    href:'/products'
   },
   {
     name: 'About',
@@ -39,13 +43,36 @@ const menuItems = [
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
+  const [showDrop, setShowDrop] = useState(false)
+  console.log(showDrop);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
   }
 
+  const logout = () => {
+
+    localStorage.removeItem('user')
+    window.location.reload()
+
+  }
+
   return (
     <>
+        {/* {showDrop ? <>
+          
+          <div className='bg-black  w- '>
+            <ul>
+              <li>
+                Hello
+              </li>
+              <li>
+                Hello
+              </li>
+            </ul>
+          </div>
+
+          </> :  null } */}
     <div className="relative w-full bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
         <div className="inline-flex items-center space-x-2">
@@ -70,35 +97,51 @@ function Header() {
           <ul className="inline-flex space-x-8">
             {menuItems.map((item) => (
               <li key={item.name}>
-                {/* <a
-                  href={item.href}
-                  className="text-sm font-semibold text-gray-800 hover:text-gray-900"
-                >
-                  {item.name}
-                </a> */}
+
 
                 <NavLink to={item.href} className={({isActive}) => `${isActive ? "text-sm font-semibold text-black hover:text-gray-900  duration-200" : "text-sm font-semibold text-gray-800 hover:text-gray-900"}`}>
                   {item.name}
                 </NavLink>
 
-                {/* <NavLink  to={item.href}
-                
-                className={({isActive}) => {`${isActive ? 'text-orange-500' : 'text-sm font-semibold text-gray-800 hover:text-gray-900' }`}}
-                >
-                  {item.name}
-                </NavLink> */}
+
               </li>
             ))}
           </ul>
         </div>
-        <div className="hidden lg:block">
+        <div className="  relative hidden lg:block">
+        <button
+            type="button"
+            className="rounded-md  px-3 py-2 text-sm  text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+          >
+           <ShoppingCart strokeWidth={1.75} color='black' />
+          </button>
           <button
             type="button"
-            className="rounded-md bg-black px-3 py-2 text-sm  text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+            onClick={()=>setShowDrop(!showDrop)}
+            
           >
-            Profile
+           <CircleUserRound strokeWidth={1.75} color='black' />
           </button>
+          {showDrop && (
+        <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg z-10">
+          <ul className="py-2">
+            <button onClick={logout} className='w-full'>
+            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
+            <LogOut strokeWidth={1.75} />
+              Logout
+            </li>
+              </button>
+            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
+            <UserRound strokeWidth={1.75} />
+              View Profile
+            </li>
+           
+          </ul>
         </div>
+      )}
+
+        </div>
+
         <div className="lg:hidden">
           <Menu onClick={toggleMenu} className="h-6 w-6 cursor-pointer" />
         </div>
@@ -138,15 +181,15 @@ function Header() {
                 <div className="mt-6">
                   <nav className="grid gap-y-4">
                     {menuItems.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
                         href={item.href}
                         className="-m-3 flex items-center rounded-md p-3 text-sm font-semibold hover:bg-gray-50"
                       >
-                        <span className="ml-3 text-base font-medium text-gray-900">
+                        <span className="ml-3 text-base font-medium texShop by Brandt-gray-900">
                           {item.name}
                         </span>
-                      </a>
+                      </Link>
                     ))}
                   </nav>
                 </div>
@@ -154,7 +197,9 @@ function Header() {
                   type="button"
                   className="mt-4 w-full rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                 >
-                  Button text
+                
+              Profile
+                  
                 </button>
               </div>
             </div>
@@ -162,10 +207,12 @@ function Header() {
         )}
       </div>
 
+
     </div>
 
     </>
   )
+  
 }
 
 export default Header

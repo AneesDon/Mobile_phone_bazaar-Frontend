@@ -2,6 +2,7 @@ import React from 'react'
 import Button from '../Button'
 import '../../App.css'
     import Flyer_Phone from '../../assets/Flyer_Phone.png'
+import { Link } from 'react-router-dom'
 
 function Flyer() {
   return (
@@ -16,7 +17,9 @@ function Flyer() {
         </h1>
         <p className="md:pl-7 text-2xl">on a wide range of smartphones</p>
         <div className="md:pl-7">
+          <Link to={'/products'}>
           <Button class="flyer-btn" btnText="Shop Now &rarr;"  />
+          </Link>
         </div>
       </div>
     </div>

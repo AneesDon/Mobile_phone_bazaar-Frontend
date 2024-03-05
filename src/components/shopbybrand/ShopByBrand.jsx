@@ -2,7 +2,10 @@ import React from 'react'
 import Container from '../Container';
 import realme from '../../assets/realme.jpg'
 import realme_logo from '../../assets/realme_login.jpg'
-import samsung from '../../assets/samsung .png'
+import samsung_logo from '../../assets/samsung_logo.png'
+import redmi from '../../assets/Xiaomi_logo.png'
+import oneplus from '../../assets/OnePlus-Logo.png'
+import { Link } from 'react-router-dom';
 
 const card = [{
 
@@ -11,10 +14,22 @@ const card = [{
 
 },{
 
-  src:samsung,
+  src:redmi,
+  alt:'redmi'
+
+}
+,{
+
+  src:oneplus,
+  alt:'oneplus'
+
+},{
+
+  src:samsung_logo,
   alt:'samsung'
 
-}]
+}
+,]
 
 function ShopByBrand() {
   return (
@@ -25,21 +40,17 @@ function ShopByBrand() {
 
     {card ? (
       card.map((item, index) => (
-        <div key={index} className="relative aspect-[16/9] w-auto rounded-md md:aspect-auto md:h-[400px] bg-black">
-          <img
-            src={item.src}
-            alt={item.alt}
-            className="z-0 h-full w-full rounded-md object-cover"
-          />
-          <div className='group'>
-            <div className="absolute inset-0 rounded-md "></div>
-            <div className="absolute bottom-4 items-center flex justify-center w-full pb-4">
-              <button className="mt-2 py-2 px-16 cursor-pointer items-center text-sm font-semibold rounded-lg bg-black text-white hover:bg-slate-700 hidden group-hover:block group-hover:duration-500">
-                Shop Now &rarr;
-              </button>
-            </div>
-          </div>
-        </div>
+       <>
+
+       <div className=' bg-white rounded-full'>
+        <Link to={'/'}>
+       <img
+       src={item.src}
+       className='hover:grayscale  rounded-lg  md:h-[300px] lg:h-[200px]'
+       />
+       </Link>
+       </div>
+       </>
       ))
     ) : null}
     

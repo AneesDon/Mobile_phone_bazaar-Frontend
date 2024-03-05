@@ -94,7 +94,6 @@ function ChangePassword() {
                 <Button
                 btnText='Verify'
                 type='Change'
-                class='auth-btn'
                 />
                 </div>
               </div>
