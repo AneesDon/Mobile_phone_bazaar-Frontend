@@ -20,6 +20,7 @@ import ChangePassword from "./components/pages/ChangePassword.jsx";
 import Layout from "./components/pages/Layout.jsx";
 import About from "./components/pages/About.jsx";
 import Products from "./components/pages/Products.jsx";
+import ProductDetails from "./components/pages/ProductDetails.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -53,6 +54,7 @@ const router = createBrowserRouter(
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/products" element={<Products/>} />
+        <Route path="/product-details" element={<ProductDetails/>}/>
       </Route>
 
       <Route
