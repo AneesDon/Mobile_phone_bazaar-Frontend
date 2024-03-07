@@ -109,12 +109,14 @@ function Header() {
           </ul>
         </div>
         <div className="  relative hidden lg:block">
+          <Link to={'/cart'}>
         <button
             type="button"
             className="rounded-md  px-3 py-2 text-sm  text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
           >
            <ShoppingCart strokeWidth={1.75} color='black' />
           </button>
+          </Link>
           <button
             type="button"
             onClick={()=>setShowDrop(!showDrop)}

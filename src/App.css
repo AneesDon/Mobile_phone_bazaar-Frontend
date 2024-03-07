@@ -21,6 +21,19 @@
 
     @apply mt-2 cursor-pointer items-center text-sm font-semibold text-black hidden duration-200 group-hover:block  bg-gray-50 
     rounded-lg py-2 px-4 hover:bg-gray-200
+  }
+
+
+  .customOverlay{
+
+
+    @apply bg-yellow-300
+
+  }
+
+  .customModal{
+
+    @apply px-8
 
   }
 }

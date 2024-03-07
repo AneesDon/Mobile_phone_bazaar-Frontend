@@ -21,6 +21,10 @@ import Layout from "./components/pages/Layout.jsx";
 import About from "./components/pages/About.jsx";
 import Products from "./components/pages/Products.jsx";
 import ProductDetails from "./components/pages/ProductDetails.jsx";
+import Cart from "./components/pages/Cart.jsx";
+import ShippingAddress from "./components/pages/ShippingAddress.jsx";
+import PaymentMethod from "./components/pages/PaymentMethod.jsx";
+import Summary from "./components/pages/Summary.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -55,6 +59,12 @@ const router = createBrowserRouter(
         <Route path="/about" element={<About />} />
         <Route path="/products" element={<Products/>} />
         <Route path="/product-details" element={<ProductDetails/>}/>
+        <Route path="/cart" element={<Cart/>}/>
+        <Route path="/shipping-address" element={<ShippingAddress/>}/>
+        <Route path="/payment-method" element={<PaymentMethod/>}/>
+        <Route path="/summary" element={<Summary/>}/>
+
+
       </Route>
 
       <Route
