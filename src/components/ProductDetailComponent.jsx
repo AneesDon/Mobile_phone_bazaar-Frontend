@@ -1,7 +1,8 @@
 import React,{useState} from 'react'
 import {ChevronDown, Star} from 'lucide-react'
 import samsung from '../assets/Samsung-Galaxy-S24-Ultra-Violet-PNG.png'
-
+import gold_samsung from '../assets/Samsung-Galaxy-S24-Ultra-PNG.png'
+import inHand from '../assets/Samsung-Galaxy-S24-Ultra-In-Hand.png'
 function ProductDetailComponent() {
 
 
@@ -79,18 +80,21 @@ function ProductDetailComponent() {
     <img
         alt="Nike Air Max 21A"
         className=" hover:border border-black h-[120px] w-[120px] rounded object-cover"
-        src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"
-        onClick={()=> setdisplayImage('https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60')}
+        src={inHand}
+        onClick={()=> setdisplayImage(inHand)}
+       
     />
     <img
         alt="Nike Air Max 21A"
         className=" hover:border border-black h-[120px] w-[120px] rounded object-cover"
-        src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"
+        src={gold_samsung}
+        onClick={()=> setdisplayImage(gold_samsung)}
     />
     <img
         alt="Nike Air Max 21A"
         className=" hover:border border-black h-[120px] w-[120px] rounded object-cover"
-        src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60"
+        src={inHand}
+        onClick={()=> setdisplayImage(inHand)}
     />
     </div>
     

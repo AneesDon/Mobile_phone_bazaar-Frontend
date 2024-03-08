@@ -88,7 +88,6 @@ function EnterOTP() {
                       <Button
                       btnText='Verify'
                       type='submit'
-                      class='auth-btn'
                       />
                       </div>
                     </div>

@@ -12,11 +12,6 @@
 
   }
 
-  .auth-btn{
-    @apply  bg-black w-full text-white rounded-md
-    py-2 hover:bg-gray-500 transition-colors duration-300
-  }
-
   .card-button{
 
     @apply mt-2 cursor-pointer items-center text-sm font-semibold text-black hidden duration-200 group-hover:block  bg-gray-50 
@@ -36,4 +31,11 @@
     @apply px-8
 
   }
+
+  .auth-btn{
+    @apply  bg-black w-full text-white rounded-md
+    py-2 hover:bg-gray-500 transition-colors duration-300
+  }
+
+
 }

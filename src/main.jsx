@@ -25,6 +25,13 @@ import Cart from "./components/pages/Cart.jsx";
 import ShippingAddress from "./components/pages/ShippingAddress.jsx";
 import PaymentMethod from "./components/pages/PaymentMethod.jsx";
 import Summary from "./components/pages/Summary.jsx";
+import ProfileLayout from "./components/pages/ProfileLayout.jsx";
+import PersonalDetails from "./components/sidebar/Profile.jsx";
+import Info from "./components/sidebar/Info.jsx";
+import ManageAddress from "./components/sidebar/ManageAddress.jsx";
+import Myorder from "./components/sidebar/Myorder.jsx";
+import CancleOrder from "./components/sidebar/CancleOrder.jsx";
+import ViewOrder from "./components/sidebar/ViewOrder.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -63,10 +70,16 @@ const router = createBrowserRouter(
         <Route path="/shipping-address" element={<ShippingAddress/>}/>
         <Route path="/payment-method" element={<PaymentMethod/>}/>
         <Route path="/summary" element={<Summary/>}/>
+        <Route path="/profile" element={<PersonalDetails/>}>
 
+          <Route path="/profile" element={<Info/>}/>
+          <Route path="/profile/manage-address" element={<ManageAddress/>}/>
+          <Route path="/profile/my-orders" element={<Myorder/>}/>
+          <Route path="/profile/cancle-order" element={<CancleOrder/>}/>
+          <Route path="/profile/order-details" element={<ViewOrder/>}/>
 
+        </Route>
       </Route>
-
       <Route
         path="/forget-password"
         element={

@@ -133,10 +133,12 @@ function Header() {
               Logout
             </li>
               </button>
-            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
+            <Link to={'/profile'}><li className="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center">
             <UserRound strokeWidth={1.75} />
               View Profile
             </li>
+            </Link>
+ 
            
           </ul>
         </div>

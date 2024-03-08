@@ -21,7 +21,7 @@ function Footer() {
                   fill="black"
                 />
               </svg>
-              <span className="ml-4 text-lg font-bold">DevUI</span>
+              <span className="ml-4 text-lg font-bold">Mobile Phone Bazaar</span>
             </div>
             <div>
               <p className="mb-4  text-base font-medium">The Tailwind CSS Component library</p>
