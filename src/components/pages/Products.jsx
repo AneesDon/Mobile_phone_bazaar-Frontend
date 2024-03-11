@@ -63,30 +63,73 @@ function Products() {
               <h1 className="text-xl font-bold">Products</h1>
             </div>
             <div className="mt-6 flex items-center  pt-2 md:mt-0 md:space-x-4  md:pt-0">
-              <button
+              <select
                 type="button"
                 className="hidden items-center rounded-md px-3 py-2 text-sm font-semibold text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black lg:inline-flex"
               >
-                Sort <ChevronDown className="ml-2 h-4 w-4" />
-              </button>
-              <button
+                <option value={''} className=''>
+                  Sort By Price
+                </option>
+                <option value={'highToLow'}>  
+                  High To Low
+                </option>
+                <option value={'lowToHigh'}>
+                  Low To High
+                </option>
+              </select>
+              <select
                 type="button"
                 className="inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black lg:hidden"
               >
-                Brand <ChevronDown className="ml-2 h-4 w-4" />
-              </button>
-              <button
+                <option>
+                  Sort By Brand
+                </option>
+                {
+                  filters[0].options.map((item)=>
+
+                    <option value={item.value}>
+                      {item.label}
+                    </option>
+                  )
+                  
+                }
+
+              </select>
+              <select
                 type="button"
                 className="inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black lg:hidden"
               >
-                Ram <ChevronDown className="ml-2 h-4 w-4" />
-              </button>
-              <button
+
+                <option>
+                Sort by RAM
+                </option>
+                {
+                  filters[1].options.map((item)=>
+
+                    <option value={item.value}>
+                      {item.label}
+                    </option>
+                  )
+                  
+                }
+              </select>
+              <select
                 type="button"
                 className="inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black lg:hidden"
               >
-                Rom <ChevronDown className="ml-2 h-4 w-4" />
-              </button>
+                <option>
+                Sort By ROM <ChevronDown className="ml-2 h-4 w-4" />
+                </option>
+                {
+                  filters[2].options.map((item)=>
+
+                    <option value={item.value}>
+                      {item.label}
+                    </option>
+                  )
+                  
+                }
+              </select>
             </div>
           </div>
           <hr className="my-8" />

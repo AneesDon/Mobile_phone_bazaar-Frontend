@@ -32,6 +32,7 @@ import ManageAddress from "./components/sidebar/ManageAddress.jsx";
 import Myorder from "./components/sidebar/Myorder.jsx";
 import CancleOrder from "./components/sidebar/CancleOrder.jsx";
 import ViewOrder from "./components/sidebar/ViewOrder.jsx";
+import ContactUs from "./components/pages/ContactUs.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -64,20 +65,21 @@ const router = createBrowserRouter(
       >
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/products" element={<Products/>} />
-        <Route path="/product-details" element={<ProductDetails/>}/>
-        <Route path="/cart" element={<Cart/>}/>
-        <Route path="/shipping-address" element={<ShippingAddress/>}/>
-        <Route path="/payment-method" element={<PaymentMethod/>}/>
-        <Route path="/summary" element={<Summary/>}/>
-        <Route path="/profile" element={<PersonalDetails/>}>
+        <Route path="/products" element={<Products />} />
+        <Route path="/contact" element={<ContactUs />} />
 
-          <Route path="/profile" element={<Info/>}/>
-          <Route path="/profile/manage-address" element={<ManageAddress/>}/>
-          <Route path="/profile/my-orders" element={<Myorder/>}/>
-          <Route path="/profile/cancle-order" element={<CancleOrder/>}/>
-          <Route path="/profile/order-details" element={<ViewOrder/>}/>
+        <Route path="/product-details" element={<ProductDetails />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/shipping-address" element={<ShippingAddress />} />
+        <Route path="/payment-method" element={<PaymentMethod />} />
+        <Route path="/summary" element={<Summary />} />
 
+        <Route path="/profile" element={<PersonalDetails />}>
+          <Route path="/profile" element={<Info />} />
+          <Route path="/profile/manage-address" element={<ManageAddress />} />
+          <Route path="/profile/my-orders" element={<Myorder />} />
+          <Route path="/profile/cancle-order" element={<CancleOrder />} />
+          <Route path="/profile/order-details" element={<ViewOrder />} />
         </Route>
       </Route>
       <Route
