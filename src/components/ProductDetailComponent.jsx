@@ -3,10 +3,13 @@ import {ChevronDown, Star} from 'lucide-react'
 import samsung from '../assets/Samsung-Galaxy-S24-Ultra-Violet-PNG.png'
 import gold_samsung from '../assets/Samsung-Galaxy-S24-Ultra-PNG.png'
 import inHand from '../assets/Samsung-Galaxy-S24-Ultra-In-Hand.png'
+
+
 function ProductDetailComponent() {
 
 
     const [displayImage, setdisplayImage] = useState(samsung)
+    
 
 
 

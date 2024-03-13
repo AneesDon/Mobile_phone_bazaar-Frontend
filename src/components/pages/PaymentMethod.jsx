@@ -110,6 +110,8 @@ function PaymentMethod() {
                                 <Input
                                 label='Card Expiry'
                                 placeholder='XX/XX'
+                                type="month"
+                                min="2024-03"
                                 />
                                 <Input
                                 label='CVV'

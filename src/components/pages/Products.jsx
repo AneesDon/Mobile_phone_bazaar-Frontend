@@ -1,10 +1,12 @@
 import Container from '../Container'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Home } from 'lucide-react'
 import Breadcrumbs from '../Breadcrumbs'
 import { ArrowUp, ArrowUpRight, ChevronDown } from 'lucide-react'
 import samsung from '../../assets/Samsung-Galaxy-S24-Ultra-Violet-PNG.png'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { set } from 'react-hook-form'
 
 
 
@@ -44,12 +46,29 @@ const filters = [
 
 
 function Products() {
+
+    const [product, setProduct] = useState('')
+
     const bread = [
-        {
-            name:'Products',
-            to:'/products'
-        },  
-    ]
+      {
+        name: "Products",
+        to: "/products",
+      },
+    ];
+
+      useEffect(() => {
+        try {
+          axios
+            .get("api/product-management/product")
+            .then((res) => {            
+            console.log(res.data[0].image.image)
+            setProduct(res.data)}
+            );  
+        } catch (error) {
+          console.log(error);
+        }
+      }, [])
+                                                                                                                                                                                                            
 
   return (
     <Container>
@@ -169,57 +188,32 @@ function Products() {
             </div>
             <div className="h-full w-full rounded-lg border-2 border-dashed px-2 lg:col-span-9 lg:h-full  ">
             <div className="mx-auto grid w-full max-w-7xl items-center space-y-2 px-2 py-5 md:grid-cols-2 md:gap-6 md:space-y-0 lg:grid-cols-3">
-            <div className='py-16'>
-              <div className="relative h-[250px] w-[250px] rounded-md group">
-                <Link to={'/product-details'}>
-                  <img
-                  src={samsung}
-                  alt="AirMax Pro"
-                  className="z-0 h-full w-full rounded-md object-cover"
-                />
-                </Link>
-                <div className="absolute bottom-4 items-center px-14">
-                  
-                  <button
-                    className="card-button"
-                  >
-                    Add To Cart &rarr;
-                  </button>
-                </div>
-                <h1 className=" font-semibold ">Samsung s24 (128/8) </h1>
-                <p>Black</p>
-                <div className="flex">
-                  <p>1000$</p>
-                  <p className="text-gray-500 pl-2 ">10% off</p>
-                </div>
-              </div>
-            </div>
-            <div className='py-16'>
-              <div className="relative h-[250px] w-[250px] rounded-md group">
-                <Link to={'/product-details'}>
-                  <img
-                  src={samsung}
-                  alt="AirMax Pro"
-                  className="z-0 h-full w-full rounded-md object-cover"
-                />
-                </Link>
-                <div className="absolute bottom-4 items-center px-14">
-                  
-                  <button
-                    className="card-button"
-                  >
-                    Add To Cart &rarr;
-                  </button>
-                </div>
-                <h1 className=" font-semibold ">Samsung s24 (128/8) </h1>
-                <p>Black</p>
-                <div className="flex">
-                  <p>1000$</p>
-                  <p className="text-gray-500 pl-2 ">10% off</p>
-                </div>
-              </div>
-            </div>
-            
+            {product && product.map((item) => (
+  <div className='py-16' key={item.id}>
+    <div className="relative h-[250px] w-[250px] rounded-md group">
+      <Link to={`/product-details/${item.id}`}>
+        <img
+          src={"http://127.0.0.1:8000/"+item.image.image} // Assuming this is the correct path to the product image
+          alt="AirMax Pro"
+          className="z-0 h-full w-full rounded-md object-cover"
+        />
+      </Link>
+      <div className="absolute bottom-4 items-center px-14">
+        <button className="card-button">
+          Add To Cart &rarr;
+        </button>
+      </div>
+      <p className=' text-gray-500'>{item.brand}</p>
+      <h1 className="font-semibold">{item.name} ({item.ram}/{item.rom} GB) </h1>
+      <p>Black</p>
+      <div className="flex">
+        <p>{item.price}₹</p>
+        <p className="text-gray-500 pl-2">{item.discount}% off</p>
+      </div>
+    </div>
+  </div>
+))}
+
           </div>
             </div>
           </div>

@@ -125,14 +125,6 @@ function ShippingAddress() {
                 </form>
 
                 <form className=" *:py-2">
-                  <Input label="Name" placeholder="Enter Name" />
-
-                  <Input
-                    label="Phone Number"
-                    placeholder="Enter Phone Number"
-                    type="number"
-                  />
-
                   <Input label="Flat,House No, Building,Company,Apartment" />
                   <Input label="Area, colony, Street, Village, Sector" />
                   <Input label="City, District" />
