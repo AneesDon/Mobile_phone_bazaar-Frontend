@@ -6,65 +6,10 @@ import { Link } from 'react-router-dom';
 import samsung from '../../assets/Samsung-Galaxy-S24-Ultra-Violet-PNG.png'
 import gold_samsung from '../../assets/Samsung-Galaxy-S24-Ultra-PNG.png'
 import inHand from '../../assets/Samsung-Galaxy-S24-Ultra-In-Hand.png'
+import { useSelector, useDispatch } from 'react-redux';
+import {removeProduct} from '../../../store/cartSlice'
 
 
-// const people = [
-//   {
-//     name: 'John Doe',
-//     title: 'Front-end Developer',
-//     department: 'Engineering',
-//     email: 'john@devui.com',
-//     role: 'Developer',
-//     image:
-//       'https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80',
-//   },
-//   {
-//     name: 'Jane Doe',
-//     title: 'Back-end Developer',
-//     department: 'Engineering',
-//     email: 'jane@devui.com',
-//     role: 'CTO',
-//     image:
-//       'https://images.unsplash.com/photo-1639149888905-fb39731f2e6c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80',
-//   },
-// ]
-const products = [
-  {
-    id: 1,
-    name: 'Samsung S24',
-    href: '#',
-    price: '₹47,199',
-    originalPrice: '₹48,900',
-    discount: '5% Off',
-    color: 'Gray',
-    size: '8/128',
-    imageSrc:samsung
-      
-  },
-  {
-    id: 2,
-    name: 'Samsung S23',
-    href: '#',
-    price: '₹1,549',
-    originalPrice: '₹2,499',
-    discount: '38% off',
-    color: 'White', 
-    size: '8/256',
-    imageSrc:inHand
-      
-  },
-  {
-    id: 3,
-    name: 'Samsung S22',
-    href: '#',
-    price: '₹2219 ',
-    originalPrice: '₹999',
-    discount: '78% off',
-    size: '8/256',
-    color: 'gold',
-    imageSrc:gold_samsung
-  },
-]
 
 
 function CheckOut() {
@@ -78,6 +23,30 @@ function CheckOut() {
 
   }
   ,[quantity])
+
+  const cart = useSelector((state) => state.cart.products)
+  const price = useSelector((state) => state.cart.totalPrice)
+  const discount = useSelector((state) => state.cart.discount)
+  console.log(price);
+  console.log(discount);
+
+  const dispatch = useDispatch()
+  const handleRemoveProduct = (id) => {
+        
+        dispatch(removeProduct(id))
+  }
+  const [total, setTotal] = useState(0);
+  
+  useEffect(() => {
+    let totalPrice = 0;
+    for (let i in cart) {
+      totalPrice += cart[i].price;
+    }
+    setTotal(totalPrice);
+  }, [cart]);
+
+
+
 
   return (
     <>
@@ -93,12 +62,12 @@ function CheckOut() {
               Items in your shopping cart
             </h2>
             <ul role="list" className="divide-y divide-gray-200">
-              {products.map((product, productIdx) => (
-                <div key={product.id} className="">
+              {cart &&  cart.map((product, productIdx) => (
+                <div key={product.productId} className="">
                   <li className="flex py-6 sm:py-6 ">
                     <div className="flex-shrink-0">
                       <img
-                        src={product.imageSrc}
+                        src={"http://127.0.0.1:8000/"+product.image}
                         alt={product.name}
                         className="sm:h-38 sm:w-38 h-24 w-24 rounded-md object-contain object-center"
                       />
@@ -109,54 +78,45 @@ function CheckOut() {
                         <div>
                           <div className="flex justify-between">
                             <h3 className="text-sm">
-                              <a href={product.href} className="font-semibold text-black">
-                                {product.name}
-                              </a>
+                              <Link to={`/product-details/${product.productId}`} className="font-semibold text-black">
+                               {product.brand} {product.name}
+                              </Link>
                             </h3>
                           </div>
                           <div className="mt-1 flex text-sm">
                             <p className="text-sm text-gray-500">{product.color}</p>
-                            {product.size ? (
+                            {product.ram ? (
                               <p className="ml-4 border-l border-gray-200 pl-4 text-sm text-gray-500">
-                                {product.size}
+                                {product.ram}/{product.rom} GB
                               </p>
                             ) : null}
                           </div>
                           <div className="mt-1 flex items-end">
                             <p className="text-xs font-medium text-gray-500 line-through">
-                              {product.originalPrice}
+                              {Math.round(product.price / product.discount + product.price)}₹
                             </p>
-                            <p className="text-sm font-medium text-gray-900">
-                              &nbsp;&nbsp;{product.price}
+                            <p className="text-xs font-medium text-gray-900">
+                              &nbsp;&nbsp;{product.price}₹/-
                             </p>
                             &nbsp;&nbsp;
-                            <p className="text-sm font-medium text-green-500">{product.discount}</p>
+                            <p className="text-xs font-medium text-green-500">{product.discount}% Off</p>
                           </div>
                         </div>
                       </div>
                     </div>
                   </li>
                   <div className="mb-2 flex">
-                    <div key={productIdx} className="min-w-24 flex">
-                      <button type="button" id={productIdx} className="h-7 w-7">
-                        -
-                      </button>
-                      <input
-                        type="text"
-                        className="mx-1 h-7 w-9 rounded-md border text-center"
-                        defaultValue={1}
-                        
-                      />
-                      <button type="button" id={productIdx} className="flex h-7 w-7 items-center justify-center"
-                      
-                      >
-                        +
-                      </button>
-                    </div>
+              
                     <div className="ml-6 flex text-sm">
-                      <button type="button" className="flex items-center space-x-1 px-2 py-1 pl-0">
+                      <button type="button" className="flex items-center space-x-1 px-2 py-1 pl-0"
+                       onClick={()=>{
+                        handleRemoveProduct(product.productId)
+                      }}
+                      >
                         <Trash size={12} className="text-red-500" />
-                        <span className="text-xs font-medium text-red-500">Remove</span>
+                        <span className="text-xs font-medium text-red-500"
+                       
+                        >Remove</span>
                       </button>
                     </div>
                   </div>
@@ -179,13 +139,13 @@ function CheckOut() {
               <dl className=" space-y-1 px-2 py-4">
                 <div className="flex items-center justify-between">
                   <dt className="text-sm text-gray-800">Price (3 item)</dt>
-                  <dd className="text-sm font-medium text-gray-900">₹ 52,398</dd>
+                  <dd className="text-sm font-medium text-gray-900">₹ {price+discount}</dd>
                 </div>
                 <div className="flex items-center justify-between pt-4">
                   <dt className="flex items-center text-sm text-gray-800">
                     <span>Discount</span>
                   </dt>
-                  <dd className="text-sm font-medium text-green-700">- ₹ 3,431</dd>
+                  <dd className="text-sm font-medium text-green-700">- {discount}₹</dd>
                 </div>
                 <div className="flex items-center justify-between py-4">
                   <dt className="flex text-sm text-gray-800">
@@ -195,17 +155,19 @@ function CheckOut() {
                 </div>
                 <div className="flex items-center justify-between border-y border-dashed py-4 ">
                   <dt className="text-base font-medium text-gray-900">Total Amount</dt>
-                  <dd className="text-base font-medium text-gray-900">₹ 48,967</dd>
+                  <dd className="text-base font-medium text-gray-900">₹ {price}</dd>
                 </div>
               </dl>
               <div className="px-2 pb-4 font-medium text-green-700">
-                You will save ₹ 3,431 on this order
+                You will save ₹ {discount} on this order
               </div>
             </div>
             <Link to={'/shipping-address'}>
+              {cart.length != 0 ?      
             <Button
             btnText={'Proceed to Checkout '}
             />
+             : null }
             </Link>
           </section>
         </form>

@@ -1,53 +1,98 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Button from '../Button'
 import {Home , WalletCards, NotepadText} from 'lucide-react'
 import Input from '../Input'
 import Container from '../Container'
-import { Link } from 'react-router-dom'
-
-const products = [
-    {
-      id: 1,
-      name: 'Nike Air Force 1 07 LV8',
-      href: '#',
-      price: '₹47,199',
-      originalPrice: '₹48,900',
-      discount: '5% Off',
-      color: 'Orange',
-      size: '8 UK',
-      imageSrc:
-        'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/54a510de-a406-41b2-8d62-7f8c587c9a7e/air-force-1-07-lv8-shoes-9KwrSk.png',
-    },
-    {
-      id: 2,
-      name: 'Nike Blazer Low 77 SE',
-      href: '#',
-      price: '₹1,549',
-      originalPrice: '₹2,499',
-      discount: '38% off',
-      color: 'White',
-      leadTime: '3-4 weeks',
-      size: '8 UK',
-      imageSrc:
-        'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/e48d6035-bd8a-4747-9fa1-04ea596bb074/blazer-low-77-se-shoes-0w2HHV.png',
-    },
-    {
-      id: 3,
-      name: 'Nike Air Max 90',
-      href: '#',
-      price: '₹2219 ',
-      originalPrice: '₹999',
-      discount: '78% off',
-      color: 'Black',
-      imageSrc:
-        'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/fd17b420-b388-4c8a-aaaa-e0a98ddf175f/dunk-high-retro-shoe-DdRmMZ.png',
-    },
-  ]
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { useEffect } from 'react'
+import Cookies from 'js-cookie'
+import { useForm } from 'react-hook-form' 
+import { ToastContainer, toast, Bounce } from "react-toastify";
+import success_toast_msg from '../toast/success_tost'
+import toast_msg from '../toast/toast'
+import "react-toastify/dist/ReactToastify.css";
+import { useSelector,useDispatch } from 'react-redux'
+import {setAddress} from '../../../store/cartSlice'
 
 
 function ShippingAddress() {
+
+  
+  const token = Cookies.get('token')
+  const [address, setAddress] = useState()
+  const { register,handleSubmit } = useForm()
+  const [msg,setMsg] = useState()
+  const price = useSelector((state) => state.cart.totalPrice)
+  const discount = useSelector((state) => state.cart.discount)
+
+  useEffect(()=>{
+
+    axios.get('/api/user-management/get-user-address', {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      } 
+    })
+    .then((res)=>{
+      setAddress(res.data)
+
+    }).catch((error)=>{
+      console.log('Error: ', error);
+    })
+
+  },[token, msg])
+
+  const addAddressHandler = async (data)=>{
+
+    await axios.post('/api/user-management/user-address/',{
+      address_line1:data.address_line1,
+      address_line2:data.address_line2,
+      city_district:data.city,
+      pincode:data.pincode,
+      state:data.state
+    },{
+      headers: {
+        'Authorization': 'Bearer ' + token
+      } 
+    }).then((res)=>{
+      if(res.status == 201)
+      {
+        console.log(res.data);
+        setMsg(res.data)
+        success_toast_msg(res.data.msg)
+      }
+    }).catch((error)=>{
+      console.log(error.response.data);
+      if(error.response.status == 400){
+          toast_msg(error.response.data.pincode[0])
+      }
+    })
+
+  }
+
+  const [orderAddress, setOrderAddress] = useState(0)
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setOrderAddress(value);
+  }
+  console.log(orderAddress);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const handleCheckout = () => {
+    if(orderAddress){
+      localStorage.setItem('orderAddress', orderAddress)
+      navigate('/payment-method')
+    }
+    else{
+      toast_msg("Please Select Order Address first..!")
+    }
+  }
+
+
+
   return (
     <>
+    <ToastContainer/>
       <div className="mx-auto max-w-7xl px-5 lg:px-0">
         <Container>
           <div className="mx-auto max-w-2xl py-8 lg:max-w-7xl ">
@@ -55,7 +100,7 @@ function ShippingAddress() {
               Shipping Address
             </h1>
 
-            <form className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
+            <div className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
               <section
                 aria-labelledby="cart-heading"
                 className="rounded-lg bg-white lg:col-span-8"
@@ -98,94 +143,94 @@ function ShippingAddress() {
                     </li>
                   </ol>
                 </nav>
-              <form className=' py-5'>
-                <div className="gap-14 flex w-full">
-                  <div className=" relative">
-                    <h1>Anees Vasa</h1>
-                    <input
-                      type="checkbox"
-                      value={""}
-                      className=" absolute top-0 right-0 h-4 w-4 accent-black"
-                    />
-                    <p>411/10, GSECL Colony, Sikka, Gujrat-361140</p>
-                  </div>
-                    <div className=" relative pb-5">
-                      <h1>Anees Vasa</h1>
-                      <input
-                        type="checkbox"
-                        value={""}
-                        className=" absolute top-0 right-0 h-4 w-4 accent-black"
-                      />
-                      <p>411/10, GSECL Colony, Sikka, Gujrat-361140</p>
-                    </div>
+                <div className=" py-5">
+                  <div className="grid grid-cols-2 gap-14">
+                    {address && address.map((addr,index)=>
+                          <div className="relative pb-5">
+                          <h1 className=' font-semibold'>{addr?.user_address}</h1>
+                          <label className="absolute top-0 right-0 flex items-center">
+                            <input
+                              type="checkbox"
+                              className="h-4 w-4 mr-1 accent-black"
+                              value={addr?.id}
+                              onChange={handleChange} 
+                              checked={orderAddress == addr?.id}
+                              
+                            />
+                          </label>
+                          <p>{addr?.address_line1}, {addr?.address_line2}, {addr?.city_district}, {addr?.state}-{addr?.pincode}</p>
+                        </div>
+                    )}
+                    </div>                  
                 </div>
-                <button className=' bg-black rounded-lg text-white px-14 py-3 text-sm hover:bg-slate-700'>
-                  Deliver Here
-                </button>
-                </form>
 
-                <form className=" *:py-2">
-                  <Input label="Flat,House No, Building,Company,Apartment" />
-                  <Input label="Area, colony, Street, Village, Sector" />
-                  <Input label="City, District" />
-                  <Input label="Pincode No." type="number" />
-                  <Input label="State" />
-                  <Button btnText={"Add Address"} />
+                <form className=" *:py-2" method="POST" onSubmit={handleSubmit(addAddressHandler)}>
+                  <Input label="Flat,House No, Building,Company,Apartment" 
+                  {...register("address_line1")}
+                  />
+                  <Input label="Area, colony, Street, Village, Sector"
+                  {...register("address_line2")}
+                  />
+                  <Input label="City, District" 
+                  {...register("city")}
+                  />
+                  <Input label="Pincode No." type="number"
+                  {...register("pincode")}
+                  />
+                  <Input label="State"
+                  {...register("state")}
+                  />
+                  <Button btnText={"Add Address"} 
+                  type='submit'
+                  />
                 </form>
               </section>
               {/* Order summary */}
               <section
-                aria-labelledby="summary-heading"
-                className="mt-16 rounded-md bg-white lg:col-span-4 lg:mt-0 lg:p-0"
-              >
-                <h2
-                  id="summary-heading"
-                  className=" border-b border-gray-200 px-4 py-3 text-lg font-medium text-gray-900 sm:p-4"
-                >
-                  Price Details
-                </h2>
-                <div>
-                  <dl className=" space-y-1 px-2 py-4">
-                    <div className="flex items-center justify-between">
-                      <dt className="text-sm text-gray-800">Price (3 item)</dt>
-                      <dd className="text-sm font-medium text-gray-900">
-                        ₹ 52,398
-                      </dd>
-                    </div>
-                    <div className="flex items-center justify-between pt-4">
-                      <dt className="flex items-center text-sm text-gray-800">
-                        <span>Discount</span>
-                      </dt>
-                      <dd className="text-sm font-medium text-green-700">
-                        - ₹ 3,431
-                      </dd>
-                    </div>
-                    <div className="flex items-center justify-between py-4">
-                      <dt className="flex text-sm text-gray-800">
-                        <span>Delivery Charges</span>
-                      </dt>
-                      <dd className="text-sm font-medium text-green-700">
-                        Free
-                      </dd>
-                    </div>
-                    <div className="flex items-center justify-between border-y border-dashed py-4 ">
-                      <dt className="text-base font-medium text-gray-900">
-                        Total Amount
-                      </dt>
-                      <dd className="text-base font-medium text-gray-900">
-                        ₹ 48,967
-                      </dd>
-                    </div>
-                  </dl>
-                  <div className="px-2 pb-4 font-medium text-green-700">
-                    You will save ₹ 3,431 on this order
-                  </div>
+            aria-labelledby="summary-heading"
+            className="mt-16 rounded-md bg-white lg:col-span-4 lg:mt-0 lg:p-0"
+          >
+            <h2
+              id="summary-heading"
+              className=" border-b border-gray-200 px-4 py-3 text-lg font-medium text-gray-900 sm:p-4"
+            >
+              Price Details
+            </h2>
+            <div>
+              <dl className=" space-y-1 px-2 py-4">
+                <div className="flex items-center justify-between">
+                  <dt className="text-sm text-gray-800">Price (3 item)</dt>
+                  <dd className="text-sm font-medium text-gray-900">₹ {price+discount}</dd>
                 </div>
-                <Link to={'/payment-method'}>
-                <Button btnText={"Add Payment"} />
-                </Link>
-              </section>
-            </form>
+                <div className="flex items-center justify-between pt-4">
+                  <dt className="flex items-center text-sm text-gray-800">
+                    <span>Discount</span>
+                  </dt>
+                  <dd className="text-sm font-medium text-green-700">- {discount}₹</dd>
+                </div>
+                <div className="flex items-center justify-between py-4">
+                  <dt className="flex text-sm text-gray-800">
+                    <span>Delivery Charges</span>
+                  </dt>
+                  <dd className="text-sm font-medium text-green-700">Free</dd>
+                </div>
+                <div className="flex items-center justify-between border-y border-dashed py-4 ">
+                  <dt className="text-base font-medium text-gray-900">Total Amount</dt>
+                  <dd className="text-base font-medium text-gray-900">₹ {price}</dd>
+                </div>
+              </dl>
+              <div className="px-2 pb-4 font-medium text-green-700">
+                You will save ₹ {discount} on this order
+              </div>
+            </div>
+          
+            <Button
+            btnText={'Proceed to Checkout '}
+            onSubmit={handleCheckout}
+            />
+           
+          </section>
+            </div>
           </div>
         </Container>
       </div>

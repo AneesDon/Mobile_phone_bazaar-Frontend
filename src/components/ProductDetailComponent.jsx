@@ -1,108 +1,124 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import {ChevronDown, Star} from 'lucide-react'
 import samsung from '../assets/Samsung-Galaxy-S24-Ultra-Violet-PNG.png'
 import gold_samsung from '../assets/Samsung-Galaxy-S24-Ultra-PNG.png'
 import inHand from '../assets/Samsung-Galaxy-S24-Ultra-In-Hand.png'
+import addToCart from '../services/CartServices'
+import { useDispatch } from "react-redux"
+import { addProduct } from "../../store/cartSlice"
 
-
-function ProductDetailComponent() {
-
-
-    const [displayImage, setdisplayImage] = useState(samsung)
+function ProductDetailComponent({product}) {
     
+    const imagePath = "http://127.0.0.1:8000"
+   
+    const [displayImage, setdisplayImage] = useState()
+    const dispatch = useDispatch();
 
+    const addToCartHandler = ()=> {
+
+      dispatch(addProduct({
+        productId: product?.id,
+        name: product?.name,
+        brand: product?.brand,
+        image: product?.product_images[0]?.image,
+        color: product?.product_features?.color,
+        price: product?.price,
+        discount: product?.discount,
+        ram: product?.product_features?.ram,
+        rom: product?.product_features?.rom,
+      }))
+    }
 
 
   return (
     <>
-        <section className="overflow-hidden">       
-      <div className="mx-auto max-w-5xl px-5 py-8">
-        
-        <div className="mx-auto flex flex-wrap items-center lg:w-4/5">
-        
-          <img
-            alt="Nike Air Max 21A"
-            className="h-64 w-full rounded object-cover lg:h-96 lg:w-1/2 " 
-            src={displayImage}
-          />
+      <section className="overflow-hidden">
+        <div className="mx-auto max-w-5xl px-5 py-8">
+          <div className="mx-auto flex flex-wrap items-center lg:w-4/5">
+            <img
+              alt="Nike Air Max 21A"
+              className="h-64 w-full rounded object-cover lg:h-96 lg:w-1/2 "
+              
+              src={displayImage ? displayImage : imagePath + product?.product_images[0]?.image}
+            />
 
-          <div className="mt-6 w-full lg:mt-0 lg:w-1/2 lg:pl-10">
-            <h2 className="text-sm font-semibold tracking-widest text-gray-500">Samsung</h2>
-            <h1 className="my-4 text-3xl text-black">Samsung S24 (8/128 GB)</h1>
-            <div className="my-4 flex items-center">
-              <span className="flex items-center space-x-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={16} className="text-yellow-500" fillRule={'inherit'}  fill='#FFFF00' />
-                ))}
-                <span className="ml-3 inline-block text-xs font-semibold">4 Reviews</span>
-              </span>
-            </div>
-            <p className="leading-relaxed">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur rem amet repudiandae
-              neque adipisci eum enim, natus illo inventore totam?
-            </p>
-            <div className="mb-5 mt-6 flex items-center border-b-2 border-gray-100 pb-5">
-              <div className="flex items-center">
-              <span className="title-font text-xl font-bold text-gray-900">₹47,199</span> 
-              <span className='title-font text-xl pl-3 font-bold text-gray-400'>10% Off</span>
+            <div className="mt-6 w-full lg:mt-0 lg:w-1/2 lg:pl-10">
+              <h2 className="text-sm font-semibold tracking-widest text-gray-500">
+                {product?.brand}
+              </h2>
+              <h1 className="my-4 text-3xl text-black">
+                {product?.name} ({product?.product_features?.ram}/
+                {product?.product_features?.rom} GB)5G
+              </h1>
+              <div className="my-4 flex items-center">
+                <span className="flex items-center space-x-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      size={16}
+                      className="text-yellow-500"
+                      fillRule={"inherit"}
+                      fill="#FFFF00"
+                    />
+                  ))}
+                  <span className="ml-3 inline-block text-xs font-semibold">
+                    4 Reviews
+                  </span>
+                </span>
               </div>
-              <div className="ml-auto flex items-center">
-                <span className="mr-3 text-sm font-semibold">Size</span>
-                <div className="relative">
-                  <select className="appearance-none rounded border border-gray-300 py-2 pl-3 pr-10 text-sm focus:border-black focus:outline-none focus:ring-2 focus:ring-black">
-                    <option>8 UK</option>
-                    <option>9 UK</option>
-                    <option>10 UK</option>
-                  </select>
-                  <span className="pointer-events-none absolute right-0 top-0 flex h-full w-10 items-center justify-center text-center text-gray-600">
-                    <ChevronDown size={16} />
+              <p className="leading-relaxed">
+                <ul>
+                  <li>Colour :- {product?.product_features?.color}</li>
+                  <li>
+                    Screen Size:- {product?.product_features?.screen_size}Inchs
+                  </li>
+                  <li>
+                    Camera:- {product?.product_features?.rear_camera}MP +{" "}
+                    {product?.product_features?.front_camera}MP
+                  </li>
+                  <li>Battery:- {product?.product_features?.battery} mAh</li>
+                </ul>
+              </p>
+              <div className="mb-5 mt-6 flex items-center border-b-2 border-gray-100 pb-5">
+                <div className="flex items-center">
+                  <span className="title-font text-xl font-bold text-gray-900">
+                    {product?.price}₹
+                  </span>
+                  <span className="title-font text-xl pl-3 font-bold text-gray-400">
+                    {product?.discount}%Off
                   </span>
                 </div>
+                <div className="ml-auto flex items-center">
+                  <div className="relative"></div>
+                </div>
               </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <button
-                type="button"
-                className="rounded-md bg-black px-3 py-2 w-full text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-              >
-                Add to Cart
-              </button>
+              <div className="flex items-center justify-between">
+                <button
+                  type="button"
+                  className="rounded-md bg-black px-3 py-2 w-full text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                  onClick={addToCartHandler}
+                >
+                  Add to Cart
+                </button>
+              </div>
             </div>
           </div>
         </div>
-        
+      </section>
+      <div className="flex flex-wrap justify-center gap-3 px-4 sm:px-8 md:px-16 lg:px-244">
+        {product && product?.product_images.map((img) => 
+          
+          <img
+            alt="Nike Air Max 21A"
+            className="h-[120px] w-[120px] rounded object-cover hover:border border-black"
+            src={imagePath + img.image}
+            onClick={() => setdisplayImage(imagePath + img.image)}
+            key={img.id}
+          />
+        )}
       </div>
-    </section>
-    <div className='flex flex-wrap justify-center gap-3 px-4 sm:px-8 md:px-16 lg:px-244'>
-    <img
-        alt="Nike Air Max 21A"
-        className="h-[120px] w-[120px] rounded object-cover hover:border border-black"
-        src={samsung}
-        onClick={()=>setdisplayImage(samsung)}
-    />  
-    <img
-        alt="Nike Air Max 21A"
-        className=" hover:border border-black h-[120px] w-[120px] rounded object-cover"
-        src={inHand}
-        onClick={()=> setdisplayImage(inHand)}
-       
-    />
-    <img
-        alt="Nike Air Max 21A"
-        className=" hover:border border-black h-[120px] w-[120px] rounded object-cover"
-        src={gold_samsung}
-        onClick={()=> setdisplayImage(gold_samsung)}
-    />
-    <img
-        alt="Nike Air Max 21A"
-        className=" hover:border border-black h-[120px] w-[120px] rounded object-cover"
-        src={inHand}
-        onClick={()=> setdisplayImage(inHand)}
-    />
-    </div>
-    
     </>
-  )
+  );
 }
 
 export default ProductDetailComponent

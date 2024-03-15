@@ -4,9 +4,11 @@ import { Home } from 'lucide-react'
 import Breadcrumbs from '../Breadcrumbs'
 import { ArrowUp, ArrowUpRight, ChevronDown } from 'lucide-react'
 import samsung from '../../assets/Samsung-Galaxy-S24-Ultra-Violet-PNG.png'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { set } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
+import { addProduct } from '../../../store/cartSlice'
 
 
 
@@ -15,9 +17,9 @@ const filters = [
       id: 'brand',
       name: 'Brand',
       options: [
-        { value: 'samsung', label: 'Samsung' },
+        { value: 'Samsung', label: 'Samsung' },
         { value: 'realme', label: 'Realme' },
-        { value: 'mi', label: 'MI' },
+        { value: 'mi', label: 'Mi' },
         { value: 'oneplus', label: 'Oneplus' },
         { value: 'motorola', label: 'Motorola' },
         { value: 'oppo', label: 'Oppo' },
@@ -56,19 +58,70 @@ function Products() {
       },
     ];
 
-      useEffect(() => {
-        try {
-          axios
-            .get("api/product-management/product")
-            .then((res) => {            
-            console.log(res.data[0].image.image)
-            setProduct(res.data)}
-            );  
-        } catch (error) {
+   
+    const [brand, setBrand] = useState( useParams().brand ? useParams().brand  : null)
+    console.log(brand);
+
+    const handleChange = (e) => {
+      const value = e.target.value;
+      setBrand(value);
+    };
+
+    const handleSortBySelect = (e) => {
+      const selectValue = e.target.value;
+      axios.get(`/api/product-management/sorted-product?ordering=${selectValue === "highToLow" ? "-price" : "price"}`)
+        .then((res) => {
+          console.log(res.data);
+          setProduct(res.data);
+;
+        })
+        .catch((error) => {
           console.log(error);
+        });
+    }
+    
+    useEffect(() => {
+      console.log("Yooo");
+      try {
+        if (brand) {
+          axios.get(`/api/product-management/product/${brand}`)
+            .then((res) => {
+              setProduct(res.data);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } else {
+          axios.get("/api/product-management/product")
+            .then((res) => {
+              console.log(res.data[0].image.image);
+              setProduct(res.data);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         }
-      }, [])
-                                                                                                                                                                                                            
+      } catch (error) {
+        console.log(error);
+      }
+    }, [brand]);
+    const dispatch = useDispatch();
+  
+    const handleAddToCart = (id) => {
+      dispatch(addProduct({
+        productId: product[id]?.id,
+        name: product[id]?.name,
+        brand: product[id]?.brand,
+        image: product[id]?.image?.image,
+        color: product[id]?.color,
+        price: product[id]?.price,
+        discount: product[id]?.discount,
+        ram:product[id]?.ram,
+        rom:product[id]?.rom,
+      }));
+    };
+                                                                                                                                                                                                   
+
 
   return (
     <Container>
@@ -85,6 +138,7 @@ function Products() {
               <select
                 type="button"
                 className="hidden items-center rounded-md px-3 py-2 text-sm font-semibold text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black lg:inline-flex"
+                onChange={handleSortBySelect}
               >
                 <option value={''} className=''>
                   Sort By Price
@@ -99,55 +153,18 @@ function Products() {
               <select
                 type="button"
                 className="inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black lg:hidden"
+                
               >
-                <option>
-                  Sort By Brand
+            <option value={''} className=''>
+                  Sort By Price
                 </option>
-                {
-                  filters[0].options.map((item)=>
-
-                    <option value={item.value}>
-                      {item.label}
-                    </option>
-                  )
-                  
-                }
-
-              </select>
-              <select
-                type="button"
-                className="inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black lg:hidden"
-              >
-
-                <option>
-                Sort by RAM
+                <option value={'highToLow'}>  
+                  High To Low
                 </option>
-                {
-                  filters[1].options.map((item)=>
-
-                    <option value={item.value}>
-                      {item.label}
-                    </option>
-                  )
-                  
-                }
-              </select>
-              <select
-                type="button"
-                className="inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black lg:hidden"
-              >
-                <option>
-                Sort By ROM <ChevronDown className="ml-2 h-4 w-4" />
+                <option value={'lowToHigh'}>
+                  Low To High
                 </option>
-                {
-                  filters[2].options.map((item)=>
 
-                    <option value={item.value}>
-                      {item.label}
-                    </option>
-                  )
-                  
-                }
               </select>
             </div>
           </div>
@@ -169,10 +186,11 @@ function Products() {
                           <input
                             id={`${filter.id}-${option.value}`}
                             name={`${filter.id}[]`}
-                            defaultValue={option.value}
                             type="checkbox"
                             className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
-                          />
+                            value={option.value}
+                            onChange={handleChange} 
+                            checked={brand === option.value}/>
                           <label
                             htmlFor={`${filter.id}-${option.value}`}
                             className="ml-3 text-sm font-medium text-gray-900"
@@ -188,18 +206,20 @@ function Products() {
             </div>
             <div className="h-full w-full rounded-lg border-2 border-dashed px-2 lg:col-span-9 lg:h-full  ">
             <div className="mx-auto grid w-full max-w-7xl items-center space-y-2 px-2 py-5 md:grid-cols-2 md:gap-6 md:space-y-0 lg:grid-cols-3">
-            {product && product.map((item) => (
+            {product && product.map((item,index) => (
   <div className='py-16' key={item.id}>
     <div className="relative h-[250px] w-[250px] rounded-md group">
       <Link to={`/product-details/${item.id}`}>
         <img
-          src={"http://127.0.0.1:8000/"+item.image.image} // Assuming this is the correct path to the product image
+          src={"http://127.0.0.1:8000/"+item.image.image}
           alt="AirMax Pro"
           className="z-0 h-full w-full rounded-md object-cover"
         />
       </Link>
       <div className="absolute bottom-4 items-center px-14">
-        <button className="card-button">
+        <button className="card-button"
+        onClick={()=>handleAddToCart(index)} 
+        >
           Add To Cart &rarr;
         </button>
       </div>
@@ -259,3 +279,5 @@ function Products() {
 }
 
 export default Products
+
+

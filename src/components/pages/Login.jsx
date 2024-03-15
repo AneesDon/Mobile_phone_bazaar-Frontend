@@ -11,6 +11,7 @@ import { login } from "../../../store/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "../Image";
 import Loader from "../loaders/Loader";
+import Cookies from 'js-cookie';
 // import '../../App.css'
 
 
@@ -44,6 +45,7 @@ function Login() {
             setLoading(false)
             localStorage.setItem('user', JSON.stringify({username: res.data.username, active: true}));
             dispatch(login({userData:res.data.username, token:res.data.token}))
+            Cookies.set('token',res?.data?.token?.access,{expires: 2, secure:true})
             navigate('/')
           } 
         })

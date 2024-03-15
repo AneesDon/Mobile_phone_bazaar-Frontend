@@ -1,9 +1,9 @@
 import { toast } from 'react-toastify'; // Import the toast function from the library
 import { Bounce } from 'react-toastify'; 
 
-const toast_msg = (msg) => {
+const success_toast_msg = (msg) => {
 
-    toast.error(msg, {
+    toast.success(msg, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -17,4 +17,4 @@ const toast_msg = (msg) => {
 
 }
 
-export  default toast_msg ;
+export default success_toast_msg

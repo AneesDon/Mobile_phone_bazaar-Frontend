@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 import Container from '../Container'
@@ -8,48 +8,20 @@ import { Link } from 'react-router-dom';
 import {Home , WalletCards, NotepadText} from 'lucide-react'
 import qr from '../../assets/upi-qr.png'
 import '../../App.css'
-
+import { useSelector } from 'react-redux';
 import samsung from '../../assets/Samsung-Galaxy-S24-Ultra-Violet-PNG.png'
 import gold_samsung from '../../assets/Samsung-Galaxy-S24-Ultra-PNG.png'
 import inHand from '../../assets/Samsung-Galaxy-S24-Ultra-In-Hand.png'
-const products = [
-  {
-    id: 1,
-    name: 'Samsung S24',
-    href: '#',
-    price: '₹47,199',
-    originalPrice: '₹48,900',
-    discount: '5% Off',
-    color: 'Gray',
-    size: '8/128',
-    imageSrc:samsung
-      
-  },
-  {
-    id: 2,
-    name: 'Samsung S23',
-    href: '#',
-    price: '₹1,549',
-    originalPrice: '₹2,499',
-    discount: '38% off',
-    color: 'White', 
-    size: '8/256',
-    imageSrc:inHand
-      
-  },
-  {
-    id: 3,
-    name: 'Samsung S22',
-    href: '#',
-    price: '₹2219 ',
-    originalPrice: '₹999',
-    discount: '78% off',
-    size: '8/256',
-    color: 'gold',
-    imageSrc:gold_samsung
-  },
-]
-  
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useLocation } from "react-router-dom";
+import { ToastContainer, toast, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import success_toast_msg from '../toast/success_tost';
+
+
+
+
 
 
 
@@ -57,15 +29,70 @@ const products = [
 function Summary() {
 
 
-    const method = 'upi'    
+  const location = useLocation();
+  const data = location.state;
+  const [method,setMethod ]= useState(data)
 const [open, setOpen] = useState(false);
+const [address, setAddress] = useState(false);
 
 const onOpenModal = () => setOpen(true);
 const onCloseModal = () => setOpen(false);
+const cart = useSelector((state) => state.cart.products)
+const price = useSelector((state) => state.cart.totalPrice)
+const discount = useSelector((state) => state.cart.discount)
+const token = Cookies.get('token')
+const addressId = localStorage.getItem('orderAddress')
+
+
+  useEffect(()=>{
+      axios.get(`/api/user-management/get-user-address/${addressId}`,{
+        headers: {
+          'Authorization': 'Bearer ' + token
+        } 
+      }).then(
+        (res)=>{
+          setAddress(res.data)
+          console.log(res.data);
+        }
+      ).catch((error)=>{
+        console.log(error);
+      })
+  },[token,addressId])
+
+  const productArr = []
+
+  for(let c in cart){
+    console.log(cart[c]);
+    productArr.push(cart[c].productId)
+  }
+  console.log(productArr);
+  const handlePlaceOrder = async ()=> {
+
+      await axios.post('/api/order-management/order/',{
+        total_amount:price,
+        products:productArr,
+        payment_method:method,
+        order_address:addressId
+      },{
+        headers: {
+          'Authorization': 'Bearer ' + token
+        } 
+      }).then((res)=>{
+          if(res.status == 201){
+            onOpenModal()
+            success_toast_msg(res.data.msg)
+          }
+          console.log(res.data);
+      }).catch((error)=>{
+        console.log(error);
+      })
+
+  }
 
 
   return (
     <>
+    <ToastContainer/>
       <Container>
         <div className="mx-auto max-w-7xl px-2 lg:px-0">
           <div className="mx-auto max-w-2xl py-8 lg:max-w-7xl">
@@ -73,7 +100,7 @@ const onCloseModal = () => setOpen(false);
               Review Your Order
             </h1>
 
-            <form className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
+            <div className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
               <section
                 aria-labelledby="cart-heading"
                 className="rounded-lg bg-white lg:col-span-8"
@@ -129,59 +156,66 @@ const onCloseModal = () => setOpen(false);
 
                 <h2 className=' text-2xl font-semibold py-3'>Estimated Delivery Date:- 15 December 2024</h2>
                 <ul role="list" className="divide-y divide-gray-200">
-                  {products.map((product, productIdx) => (
-                    <div key={product.id} className="">
-                      <li className="flex py-6 sm:py-6 ">
-                        <div className="flex-shrink-0">
-                          <img
-                            src={product.imageSrc}
-                            alt={product.name}
-                            className="sm:h-38 sm:w-38 h-24 w-24 rounded-md object-contain object-center"
-                          />
-                        </div>
+                {cart.map((product, productIdx) => (
+                <div key={product.productId} className="">
+                  <li className="flex py-6 sm:py-6 ">
+                    <div className="flex-shrink-0">
+                      <img
+                        src={"http://127.0.0.1:8000/"+product.image}
+                        alt={product.name}
+                        className="sm:h-38 sm:w-38 h-24 w-24 rounded-md object-contain object-center"
+                      />
+                    </div>
 
-                        <div className="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
-                          <div className="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
-                            <div>
-                              <div className="flex justify-between">
-                                <h3 className="text-sm">
-                                  <a
-                                    href={product.href}
-                                    className="font-semibold text-black"
-                                  >
-                                    {product.name}
-                                  </a>
-                                </h3>
-                              </div>
-                              <div className="mt-1 flex text-sm">
-                                <p className="text-sm text-gray-500">
-                                  {product.color}
-                                </p>
-                                {product.size ? (
-                                  <p className="ml-4 border-l border-gray-200 pl-4 text-sm text-gray-500">
-                                    {product.size}
-                                  </p>
-                                ) : null}
-                              </div>
-                              <div className="mt-1 flex items-end">
-                                <p className="text-sm font-medium text-gray-900">
-                                  {product.price}
-                                </p>
-                                &nbsp;&nbsp;
-                              </div>
-                            </div>
+                    <div className="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
+                      <div className="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
+                        <div>
+                          <div className="flex justify-between">
+                            <h3 className="text-sm">
+                              <Link to={`/product-details/${product.productId}`} className="font-semibold text-black">
+                               {product.brand} {product.name}
+                              </Link>
+                            </h3>
+                          </div>
+                          <div className="mt-1 flex text-sm">
+                            <p className="text-sm text-gray-500">{product.color}</p>
+                            {product.ram ? (
+                              <p className="ml-4 border-l border-gray-200 pl-4 text-sm text-gray-500">
+                                {product.ram}/{product.rom} GB
+                              </p>
+                            ) : null}
+                          </div>
+                          <div className="mt-1 flex items-end">
+                            <p className="text-xs font-medium text-gray-500 line-through">
+                              {Math.round(product.price / product.discount + product.price)}₹
+                            </p>
+                            <p className="text-xs font-medium text-gray-900">
+                              &nbsp;&nbsp;{product.price}₹/-
+                            </p>
+                            &nbsp;&nbsp;
+                            <p className="text-xs font-medium text-green-500">{product.discount}% Off</p>
                           </div>
                         </div>
-                      </li>
+                      </div>
                     </div>
-                  ))}
+                  </li>
+                  <div className="mb-2 flex">
+              
+                    <div className="ml-6 flex text-sm">
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+
+
                 </ul>
                 <div className=" divide-y divide-solid *:py-7">
                   <div className=" *:py-1">
                     <h1 className=" text-xl font-semibold">Shipping Address</h1>
                     <div>
-                      <p className=" text-lg font-medium">Aness Vasa</p>
-                      <p>411/10 gujrat jamnaagar-361140</p>
+                      <p className=" text-lg font-medium">{address.user_address}</p>
+                      <p>{address?.address_line1}, {address?.address_line2}, {address?.city_district}, {address?.state}-{address?.pincode}</p>
                     </div>
                   </div>
 
@@ -191,20 +225,22 @@ const onCloseModal = () => setOpen(false);
                     {method === "card" ? (
                       <p className="text-lg font-semibold">
                         Card(.... .... .... .007)
+                        
                       </p>
                     ) : null}
+                    Please make payment of {price}
                     {method === "upi" ? (
                       <>
                         <p>
                           UPI Payment, Please Scan this QR code to pay your bill
-                          of 1000/-
+                          of {price}/-
                         </p>
                         <img src={qr} className=" w-[100px] h-[100px]" />
                       </>
                     ) : null}
                     {method === "cash" ? (
                       <>
-                        <p>10000/- will be payble at time of the Delivery</p>
+                        <p>{price}/- will be payble at time of the Delivery</p>
                       </>
                     ) : null}
                   </div>
@@ -212,58 +248,51 @@ const onCloseModal = () => setOpen(false);
               </section>
               {/* Order summary */}
               <section
-                aria-labelledby="summary-heading"
-                className="mt-16 rounded-md bg-white lg:col-span-4 lg:mt-0 lg:p-0"
-              >
-                <h2
-                  id="summary-heading"
-                  className=" border-b border-gray-200 px-4 py-3 text-lg font-medium text-gray-900 sm:p-4"
-                >
-                  Price Details
-                </h2>
-                <div>
-                  <dl className=" space-y-1 px-2 py-4">
-                    <div className="flex items-center justify-between">
-                      <dt className="text-sm text-gray-800">Price (3 item)</dt>
-                      <dd className="text-sm font-medium text-gray-900">
-                        ₹ 52,398
-                      </dd>
-                    </div>
-                    <div className="flex items-center justify-between pt-4">
-                      <dt className="flex items-center text-sm text-gray-800">
-                        <span>Discount</span>
-                      </dt>
-                      <dd className="text-sm font-medium text-green-700">
-                        - ₹ 3,431
-                      </dd>
-                    </div>
-                    <div className="flex items-center justify-between py-4">
-                      <dt className="flex text-sm text-gray-800">
-                        <span>Delivery Charges</span>
-                      </dt>
-                      <dd className="text-sm font-medium text-green-700">
-                        Free
-                      </dd>
-                    </div>
-                    <div className="flex items-center justify-between border-y border-dashed py-4 ">
-                      <dt className="text-base font-medium text-gray-900">
-                        Total Amount
-                      </dt>
-                      <dd className="text-base font-medium text-gray-900">
-                        ₹ 48,967
-                      </dd>
-                    </div>
-                  </dl>
-                  <div className="px-2 pb-4 font-medium text-green-700">
-                    You will save ₹ 3,431 on this order
-                  </div>
+            aria-labelledby="summary-heading"
+            className="mt-16 rounded-md bg-white lg:col-span-4 lg:mt-0 lg:p-0"
+          >
+            <h2
+              id="summary-heading"
+              className=" border-b border-gray-200 px-4 py-3 text-lg font-medium text-gray-900 sm:p-4"
+            >
+              Price Details
+            </h2>
+            <div>
+              <dl className=" space-y-1 px-2 py-4">
+                <div className="flex items-center justify-between">
+                  <dt className="text-sm text-gray-800">Price (3 item)</dt>
+                  <dd className="text-sm font-medium text-gray-900">₹ {price+discount}</dd>
                 </div>
-              </section>
-            </form>
+                <div className="flex items-center justify-between pt-4">
+                  <dt className="flex items-center text-sm text-gray-800">
+                    <span>Discount</span>
+                  </dt>
+                  <dd className="text-sm font-medium text-green-700">- {discount}₹</dd>
+                </div>
+                <div className="flex items-center justify-between py-4">
+                  <dt className="flex text-sm text-gray-800">
+                    <span>Delivery Charges</span>
+                  </dt>
+                  <dd className="text-sm font-medium text-green-700">Free</dd>
+                </div>
+                <div className="flex items-center justify-between border-y border-dashed py-4 ">
+                  <dt className="text-base font-medium text-gray-900">Total Amount</dt>
+                  <dd className="text-base font-medium text-gray-900">₹ {price}</dd>
+                </div>
+              </dl>
+              <div className="px-2 pb-4 font-medium text-green-700">
+                You will save ₹ {discount} on this order
+              </div>
+            </div>
+          
+   
+           
+          </section>
+            </div>
             <Button
               btnText={"Confirm Order"}
               className="px-8 bg-black py-4 text-white rounded-lg hover:bg-gray-800"
-              onClick={onOpenModal}
+              onSubmit={handlePlaceOrder}
             />
           </div>
         </div>
