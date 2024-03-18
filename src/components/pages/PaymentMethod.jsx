@@ -18,6 +18,7 @@ function PaymentMethod() {
   const [payMethod, setPaymethod] = useState("");
   const price = useSelector((state) => state.cart.totalPrice)
   const discount = useSelector((state) => state.cart.discount)
+  const cart = useSelector((state) => state.cart.products)
   const [card, setCard] = useState("");
   const {register, handleSubmit} = useForm()
   const navigate = useNavigate()
@@ -222,7 +223,7 @@ function PaymentMethod() {
             <div>
               <dl className=" space-y-1 px-2 py-4">
                 <div className="flex items-center justify-between">
-                  <dt className="text-sm text-gray-800">Price (3 item)</dt>
+                  <dt className="text-sm text-gray-800">Price ({cart.length} item)</dt>
                   <dd className="text-sm font-medium text-gray-900">₹ {price+discount}</dd>
                 </div>
                 <div className="flex items-center justify-between pt-4">

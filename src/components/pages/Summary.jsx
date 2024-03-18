@@ -260,7 +260,7 @@ const addressId = localStorage.getItem('orderAddress')
             <div>
               <dl className=" space-y-1 px-2 py-4">
                 <div className="flex items-center justify-between">
-                  <dt className="text-sm text-gray-800">Price (3 item)</dt>
+                  <dt className="text-sm text-gray-800">Price ({cart.length} item)</dt>
                   <dd className="text-sm font-medium text-gray-900">₹ {price+discount}</dd>
                 </div>
                 <div className="flex items-center justify-between pt-4">
