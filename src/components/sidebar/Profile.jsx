@@ -24,6 +24,10 @@ function PersonalDetails() {
 
   const [showSide, setShowSide] = useState(false)
   const [open, setOpen] = useState(true);
+
+  const user = localStorage.getItem("user")
+  const username = JSON.parse(user)
+ 
   const Menus = [
   { title: "Personal Information", src: <CircleUser/> , to:'' },
   { title: "My Orders", src: <ShoppingBag/> , to:'my-orders'},
@@ -58,7 +62,7 @@ function PersonalDetails() {
               !open && "scale-0"
             }`}
           >
-            Anees Vasa
+          {username && username.username}
           </h1>
         </div>
         <ul className="pt-6">
