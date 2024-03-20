@@ -23,6 +23,7 @@ function ManageAddress() {
     const [addressId, setAddressId] = useState()
     const [editAddressId, setEditAddressId] = useState()
     const navigate = useNavigate()
+    const [isEditable, setIsEditable ] = useState()
 
 const onOpenModal = () => setOpen(true);
 const onCloseModal = () => {
@@ -32,6 +33,7 @@ const onCloseModal = () => {
 }
 const [showForm, setShowForm] = useState(false)
 const handleEdit = ({address}) => {
+  setIsEditable(true)
     setShowForm(true)
     onOpenModal();
     setEditAddressId(address.id)
@@ -42,7 +44,7 @@ const handleEdit = ({address}) => {
     setValue('state', address.state)
 }
 const handleAddClick = () => {
-
+    setIsEditable(false)
     reset()
     setShowForm(true)
     onOpenModal();
@@ -80,8 +82,8 @@ useEffect(() => {
 
 
 
-  const addAddressHandler = async (data,event)=>{
-    event.preventDefault()
+  const addAddressHandler = async (data)=>{
+    
     await axios.post('/api/user-management/user-address/',{
       address_line1:data.address_line1,
       address_line2:data.address_line2,
@@ -96,6 +98,7 @@ useEffect(() => {
       if(res.status == 201)
       {
         console.log(res.data);  
+        console.log(data.state);
         success_toast_msg(res.data.msg)
         navigate('/profile/manage-address')
         onCloseModal()
@@ -130,7 +133,7 @@ useEffect(() => {
 
 
   const handleEditAddress = (data) => {
-
+    console.log(data);
     axios.patch(`/api/user-management/update-address/${editAddressId}`,{
       address_line1:data.address_line1,
       address_line2:data.address_line2,
@@ -141,6 +144,7 @@ useEffect(() => {
       success_toast_msg(res.data.msg)
       console.log(res.data);
       onCloseModal()
+      fetchUserAddress()
     }).catch((error)=>{
       console.log(error);
     })
@@ -219,7 +223,7 @@ useEffect(() => {
                 </>
                 :
                 <>
-               <form className=" *:py-2" method="POST" onSubmit={handleSubmit(editAddressId ? handleEditAddress : addAddressHandler)}>
+               <form className=" *:py-2" method="POST" onSubmit={handleSubmit(isEditable ? handleEditAddress : addAddressHandler)}>
                   <Input label="Flat,House No, Building,Company,Apartment" 
                   {...register("address_line1")}
                   />

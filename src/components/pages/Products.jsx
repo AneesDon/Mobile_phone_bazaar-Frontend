@@ -18,11 +18,11 @@ const filters = [
       name: 'Brand',
       options: [
         { value: 'Samsung', label: 'Samsung' },
-        { value: 'realme', label: 'Realme' },
-        { value: 'mi', label: 'Mi' },
-        { value: 'oneplus', label: 'Oneplus' },
+        { value: 'Realme', label: 'Realme' },
+        { value: 'Mi', label: 'Mi' },
+        { value: 'Oneplus', label: 'Oneplus' },
         { value: 'Motorola', label: 'Motorola' },
-        { value: 'oppo', label: 'Oppo' },
+        { value: 'Oppo', label: 'Oppo' },
       ],
     },
     {
@@ -46,10 +46,9 @@ const filters = [
   ]
 
 
-
 function Products() {
 
-    const [product, setProduct] = useState('')
+    const [product, setProduct] = useState()
 
     const bread = [
       {

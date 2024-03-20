@@ -26,7 +26,7 @@ function Myorder() {
   const token = Cookies.get('token');
   const [orders, setOrders] = useState()
 
-  useEffect(() => {
+  const fetchOrders = () => {
     axios
       .get("/api/order-management/get-order", {
         headers: {
@@ -40,7 +40,12 @@ function Myorder() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }
+
+  useEffect(()=>{
+    fetchOrders()
+  },[])
+
 
 const [orderId, setOrderId] = useState()
 
@@ -57,6 +62,7 @@ const handleCancle = (id)=> {
       }).then((res)=>{
           success_toast_msg(res.data.message)
           console.log(res.data);
+          fetchOrders()
       }).catch((error)=>{
           console.log(error);
       })

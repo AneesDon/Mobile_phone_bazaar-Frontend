@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function Footer() {
   return (
@@ -38,24 +39,24 @@ function Footer() {
             </h3>
             <ul>
               <li className="mb-4">
-                <a className=" text-base font-medium text-gray-900 hover:text-gray-700" href="#">
+                <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to='/products/Samsung'>
                   Samsung
-                </a>
+                </Link>
               </li>
               <li className="mb-4">
-                <a className=" text-base font-medium text-gray-900 hover:text-gray-700" href="#">
+                <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to='/products/Apple'>
                   Apple
-                </a>
+                </Link>
               </li>
               <li className="mb-4">
-                <a className=" text-base font-medium text-gray-900 hover:text-gray-700" href="#">
+                <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to='/products/Mi'>
                   MI
-                </a>
+                </Link>
               </li>
               <li>
-                <a className=" text-base font-medium text-gray-900 hover:text-gray-700" href="#">
+                <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to='/products/Realme'>
                   Realme
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -67,24 +68,24 @@ function Footer() {
             </h3>
             <ul>
               <li className="mb-4">
-                <a className=" text-base font-medium text-gray-900 hover:text-gray-700" href="#">
+                <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to='/profile'>
                   Account
-                </a>
+                </Link>
               </li>
               <li className="mb-4">
-                <a className=" text-base font-medium text-gray-900 hover:text-gray-700" href="#">
-                  Help
-                </a>
+                <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to='/about'>
+                  About Us
+                </Link>
               </li>
               <li className="mb-4">
-                <a className=" text-base font-medium text-gray-900 hover:text-gray-700" href="#">
+                <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to='/contact'>
                   Contact Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a className=" text-base font-medium text-gray-900 hover:text-gray-700" href="#">
+                <Link className=" text-base font-medium text-gray-900 hover:text-gray-700" to=''>
                   Customer Support
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

@@ -8,45 +8,6 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 
 
-const products = [
-  {
-    id: 1,
-    name: 'Samsung S24',
-    href: '#',
-    price: '₹47,199',
-    originalPrice: '₹48,900',
-    discount: '5% Off',
-    color: 'Gray',
-    size: '8/128',
-    imageSrc:samsung
-      
-  },
-  {
-    id: 2,
-    name: 'Samsung S23',
-    href: '#',
-    price: '₹1,549',
-    originalPrice: '₹2,499',
-    discount: '38% off',
-    color: 'White', 
-    size: '8/256',
-    imageSrc:inHand
-      
-  },
-  {
-    id: 3,
-    name: 'Samsung S22',
-    href: '#',
-    price: '₹2219 ',
-    originalPrice: '₹999',
-    discount: '78% off',
-    size: '8/256',
-    color: 'gold',
-    imageSrc:gold_samsung
-  },
-]
-
-
 
 function ViewOrder() {
 
