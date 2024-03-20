@@ -1,63 +1,83 @@
-import React from 'react'
+import React, { useEffect,useState } from 'react'
 import Button from '../Button'
 import { Link } from 'react-router-dom'
 import samsung from '../../assets/Samsung-Galaxy-S24-Ultra-Violet-PNG.png'
 import gold_samsung from '../../assets/Samsung-Galaxy-S24-Ultra-PNG.png'
 import inHand from '../../assets/Samsung-Galaxy-S24-Ultra-In-Hand.png'
-const products = [
-  {
-    id: 1,
-    name: 'Samsung S24',
-    href: '#',
-    price: '₹47,199',
-    originalPrice: '₹48,900',
-    discount: '5% Off',
-    color: 'Gray',
-    size: '8/128',
-    imageSrc:samsung
-      
-  },
-  {
-    id: 2,
-    name: 'Samsung S23',
-    href: '#',
-    price: '₹1,549',
-    originalPrice: '₹2,499',
-    discount: '38% off',
-    color: 'White', 
-    size: '8/256',
-    imageSrc:inHand
-      
-  },
-  {
-    id: 3,
-    name: 'Samsung S22',
-    href: '#',
-    price: '₹2219 ',
-    originalPrice: '₹999',
-    discount: '78% off',
-    size: '8/256',
-    color: 'gold',
-    imageSrc:gold_samsung
-  },
-]
-  
+import axios from 'axios'
+import Cookies from 'js-cookie'
+import { X,ShoppingBag } from 'lucide-react'
+import 'react-responsive-modal/styles.css';
+import { Modal } from 'react-responsive-modal';
+import { ToastContainer, toast, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import success_toast_msg from '../toast/success_tost'
+
+
 
 function Myorder() {
+  
+
+  const [open, setOpen] = useState(false);
+
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
+
+  const token = Cookies.get('token');
+  const [orders, setOrders] = useState()
+
+  useEffect(() => {
+    axios
+      .get("/api/order-management/get-order", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setOrders(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+const [orderId, setOrderId] = useState()
+
+const handleCancle = (id)=> {
+  setOrderId(id)
+  onOpenModal()
+}
+
+
+  const cancelOrder = ()=>{
+      onCloseModal()
+      axios.post('/api/order-management/delete-order/',{
+        id:orderId
+      }).then((res)=>{
+          success_toast_msg(res.data.message)
+          console.log(res.data);
+      }).catch((error)=>{
+          console.log(error);
+      })
+  }
+
 
   return (
     <>
+    <ToastContainer/>
     <h1 className=' text-2xl py-3 font-semibold'>My Order</h1>
     <div>
 
     <ul role="list" className="divide-y divide-gray-200">
-                  {products.map((product, productIdx) => (
-                    <div key={product.id} className="">
+                  { orders && orders.map((order, index) => (
+                    <>
+                    <div key={order.id} className="">
                       <li className="flex py-6 sm:py-6 ">
                         <div className="flex-shrink-0">
                           <img
-                            src={product.imageSrc}
-                            alt={product.name}
+                            src={"http://127.0.0.1:8000/"+order.product_details[0].image.image}
+                            alt={order.name}
                             className="sm:h-38 sm:w-38 h-24 w-24 rounded-md object-contain object-center"
                           />
                         </div>
@@ -67,44 +87,48 @@ function Myorder() {
                             <div>
                               <div className="flex justify-between">
                                 <h3 className="text-sm">
-                                  <a
-                                    href={product.href}
+                                  <Link
+                                    to={`/profile/order-details/${order.id}`}
                                     className="font-semibold text-black"
                                   >
-                                    {product.name}
-                                  </a>
+                                    {order.product_details[0].product}
+                                  </Link>
                                 </h3>
                               </div>
                               <div className="mt-1 flex text-sm">
                                 <p className="text-sm text-gray-500">
-                                  {product.color}
+                                  (1/{order.product_details.length}) 
                                 </p>
-                                {product.size ? (
+                                {order.product_details[0] ? (
                                   <p className="ml-4 border-l border-gray-200 pl-4 text-sm text-gray-500">
-                                    {product.size}
+                                    {order.product_details[0].ram}/{order.product_details[0].rom}GB
                                   </p>
+                                  
                                 ) : null}
                               </div>
                               <div className="mt-1 flex items-end">
                                 <p className="text-sm font-medium text-gray-900 pb-2">
-                                  {product.price}
+                                  {order.total_amount}₹ 
                                 </p>
                                 &nbsp;&nbsp;
                               </div>
-                                {/* <div className=' text-center px-1 w-20 h-6 bg-green-200 rounded-sm'>
+                              
+                                {order.is_delivered ?  <div className=' text-center px-1 w-20 h-6 bg-green-200 rounded-sm'>
                                     <p className=' text-green-500'>Delivered</p>
-                                </div> */}
-                                <div className=' text-center w-20 h-6 bg-orange-100 rounded-sm'>
+                                </div>:<div className=' text-center w-20 h-6 bg-orange-100 rounded-sm'>
                                     <p className=' text-orange-500'>In Process</p>
-                                </div>
+                                </div> }
+                             
                             </div>
                             <div className=' text-right'>
-                                <Link to='/profile/cancle-order'>
-                            <button className=' text-white bg-orange-500 h-8 w-28 rounded-md hover:bg-orange-300'>
+                                
+                            <button className=' text-white bg-orange-500 h-8 w-28 rounded-md hover:bg-orange-300'
+                            onClick={()=>handleCancle(order.id)}
+                            >
                                 Cancel Order
                             </button>
-                            </Link><br/>
-                            <Link to='/profile/order-details'>
+                            <br/>
+                            <Link to={`/profile/order-details/${order.id}`}>
                             <button className=' text-black bg-white h-8 w-28 rounded-md hover:bg-black hover:text-white border border-black'>
                                 View Order
                             </button>   
@@ -115,10 +139,38 @@ function Myorder() {
                         </div>
                       </li>
                     </div>
+                    </>
                   ))}
                 </ul>
 
     </div>
+    
+    <Modal open={open} onClose={onCloseModal} center>
+
+        <h2 className=" px-32 py-5 font-semibold text-xl">
+          Cancle Order
+        </h2>
+        <p className=" text-center">
+          If you have paid online? {" "}
+        </p>
+        <p className=" text-center">Than your payment will transfared to our account soon</p>
+
+        <div className=' flex gap-3 object-center justify-center'>
+        <Link to={"/profile/my-orders"}>
+          <Button btnText={"Yes"} 
+          className={' px-12 bg-black rounded-lg text-white py-2 hover:bg-slate-700'}
+          onClick={cancelOrder}
+          />
+        </Link>
+        <Link to={""}>
+          <Button btnText={"No"} 
+          className={' px-12 bg-black rounded-lg text-white py-2 hover:bg-slate-700'}
+          onClick= {onCloseModal}
+          />
+        </Link>
+        </div>
+      </Modal>
+    
     </>
   )
 }

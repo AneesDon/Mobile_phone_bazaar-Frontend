@@ -79,8 +79,8 @@ const router = createBrowserRouter(
           <Route path="/profile" element={<Info />} />
           <Route path="/profile/manage-address" element={<ManageAddress />} />
           <Route path="/profile/my-orders" element={<Myorder />} />
-          <Route path="/profile/cancle-order" element={<CancleOrder />} />
-          <Route path="/profile/order-details" element={<ViewOrder />} />
+          <Route path="/profile/cancle-order/:id" element={<CancleOrder />} />
+          <Route path="/profile/order-details/:id" element={<ViewOrder />} />
         </Route>
       </Route>
       <Route

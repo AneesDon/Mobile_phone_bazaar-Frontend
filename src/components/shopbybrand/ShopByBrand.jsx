@@ -42,7 +42,7 @@ const card = [{
 ,{
 
   src:moto,
-  alt:'Moto'
+  alt:'Motorola'
 
 }
 ,{

@@ -21,7 +21,7 @@ const filters = [
         { value: 'realme', label: 'Realme' },
         { value: 'mi', label: 'Mi' },
         { value: 'oneplus', label: 'Oneplus' },
-        { value: 'motorola', label: 'Motorola' },
+        { value: 'Motorola', label: 'Motorola' },
         { value: 'oppo', label: 'Oppo' },
       ],
     },
