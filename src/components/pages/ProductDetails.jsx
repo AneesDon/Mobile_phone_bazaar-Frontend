@@ -163,7 +163,7 @@ useEffect(()=>{
             </li>
             <li className=' flex gap-14'>
             <h3 className=' text-gray-500'>Storage Capacity</h3>
-            <h3> {productDetails?.product_features?.ram} RAM / {productDetails?.product_features?.ram} ROM </h3>
+            <h3> {productDetails?.product_features?.ram} RAM / {productDetails?.product_features?.rom} ROM </h3>
             
             </li>
             <li className=' flex  gap-16'>

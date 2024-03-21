@@ -139,31 +139,21 @@ function Products() {
                 className="hidden items-center rounded-md px-3 py-2 text-sm font-semibold text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black lg:inline-flex"
                 onChange={handleSortBySelect}
               >
-                <option value={''} className=''>
+                <option value={""} className="">
                   Sort By Price
                 </option>
-                <option value={'highToLow'}>  
-                  High To Low
-                </option>
-                <option value={'lowToHigh'}>
-                  Low To High
-                </option>
+                <option value={"highToLow"}>High To Low</option>
+                <option value={"lowToHigh"}>Low To High</option>
               </select>
               <select
                 type="button"
                 className="inline-flex items-center rounded-md px-3 py-2 text-sm font-semibold text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black lg:hidden"
-                
               >
-            <option value={''} className=''>
+                <option value={""} className="">
                   Sort By Price
                 </option>
-                <option value={'highToLow'}>  
-                  High To Low
-                </option>
-                <option value={'lowToHigh'}>
-                  Low To High
-                </option>
-
+                <option value={"highToLow"}>High To Low</option>
+                <option value={"lowToHigh"}>Low To High</option>
               </select>
             </div>
           </div>
@@ -188,8 +178,9 @@ function Products() {
                             type="checkbox"
                             className="h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
                             value={option.value}
-                            onChange={handleChange} 
-                            checked={brand === option.value}/>
+                            onChange={handleChange}
+                            checked={brand === option.value}
+                          />
                           <label
                             htmlFor={`${filter.id}-${option.value}`}
                             className="ml-3 text-sm font-medium text-gray-900"
@@ -203,76 +194,82 @@ function Products() {
                 </div>
               ))}
             </div>
-            <div className="h-full w-full rounded-lg border-2 border-dashed px-2 lg:col-span-9 lg:h-full  ">
-            <div className="mx-auto grid w-full max-w-7xl items-center space-y-2 px-2 py-5 md:grid-cols-2 md:gap-6 md:space-y-0 lg:grid-cols-3">
-            {product && product.map((item,index) => (
-  <div className='py-16' key={item.id}>
-    <div className="relative h-[250px] w-[250px] rounded-md group">
-      <Link to={`/product-details/${item.id}`}>
-        <img
-          src={"http://127.0.0.1:8000/"+item.image.image}
-          alt="AirMax Pro"
-          className="z-0 h-full w-full rounded-md object-cover"
-        />
-      </Link>
-      <div className="absolute bottom-4 items-center px-14">
-        <button className="card-button"
-        onClick={()=>handleAddToCart(index)} 
-        >
-          Add To Cart &rarr;
-        </button>
-      </div>
-      <p className=' text-gray-500'>{item.brand}</p>
-      <h1 className="font-semibold">{item.name} ({item.ram}/{item.rom} GB) </h1>
-      <p>Black</p>
-      <div className="flex">
-        <p>{item.price}₹</p>
-        <p className="text-gray-500 pl-2">{item.discount}% off</p>
-      </div>
-    </div>
-  </div>
-))}
-
-          </div>
+            <div className="h-full w-full rounded-lg border-2 border-dashed px-2 lg:col-span-9 lg:h-full pb-7">
+              <div className="mx-auto grid w-full max-w-7xl items-center space-y-2 px-2 py-5 md:grid-cols-2 md:gap-6 md:space-y-0 lg:grid-cols-3">
+                {product &&
+                  product.map((item, index) => (
+                    <div className="py-16 " key={item.id}>
+                      <div className="relative h-[250px] w-[250px] rounded-md group">
+                        <Link to={`/product-details/${item.id}`}>
+                          <img
+                            src={"http://127.0.0.1:8000/" + item.image.image}
+                            alt="AirMax Pro"
+                            className="z-0 h-full w-full rounded-md object-cover" 
+                          />
+                        </Link>
+                        <div className="absolute bottom-4 items-center px-14">
+                          <button
+                            className="card-button"
+                            onClick={() => handleAddToCart(index)}
+                          >
+                            Add To Cart &rarr;
+                          </button>
+                        </div>
+                        <p className=" text-gray-500">{item.brand}</p>
+                        <h1 className="font-semibold">
+                          {item.name} ({item.ram}/{item.rom} GB){" "}
+                        </h1>
+                        <p>{item.color}</p>
+                        <div className="flex">
+                          <p>{item.price}₹</p>
+                          <p className="text-gray-500 pl-2">
+                            {item.discount}% off
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
             </div>
           </div>
-  
-      <div className="flex items-center float-right pt-3">
-      <Link href="#" className="mx-1 cursor-not-allowed text-sm font-semibold text-gray-900">
-        &larr; Previous
-      </Link>
-      <Link
-        href="#"
-        className="mx-1 flex items-center rounded-md border border-gray-400 px-3 py-1 text-gray-900 hover:scale-105"
-      >
-        1
-      </Link>
-      <Link
-        href="#"
-        className="mx-1 flex items-center rounded-md border border-gray-400 px-3 py-1 text-gray-900 hover:scale-105"
-      >
-        2
-      </Link>
-      <Link
-        href="#"
-        className="mx-1 flex items-center rounded-md border border-gray-400 px-3 py-1 text-gray-900 hover:scale-105"
-      >
-        3
-      </Link>
-      <Link
-        href="#"
-        className="mx-1 flex items-center rounded-md border border-gray-400 px-3 py-1 text-gray-900 hover:scale-105"
-      >
-        4
-      </Link>
-      <Link href="#" className="mx-2 text-sm font-semibold text-gray-900">
-        Next &rarr;
-      </Link>
-    </div>
+
+          <div className="flex items-center float-right pt-3">
+            <Link
+              href="#"
+              className="mx-1 cursor-not-allowed text-sm font-semibold text-gray-900"
+            >
+              &larr; Previous
+            </Link>
+            <Link
+              href="#"
+              className="mx-1 flex items-center rounded-md border border-gray-400 px-3 py-1 text-gray-900 hover:scale-105"
+            >
+              1
+            </Link>
+            <Link
+              href="#"
+              className="mx-1 flex items-center rounded-md border border-gray-400 px-3 py-1 text-gray-900 hover:scale-105"
+            >
+              2
+            </Link>
+            <Link
+              href="#"
+              className="mx-1 flex items-center rounded-md border border-gray-400 px-3 py-1 text-gray-900 hover:scale-105"
+            >
+              3
+            </Link>
+            <Link
+              href="#"
+              className="mx-1 flex items-center rounded-md border border-gray-400 px-3 py-1 text-gray-900 hover:scale-105"
+            >
+              4
+            </Link>
+            <Link href="#" className="mx-2 text-sm font-semibold text-gray-900">
+              Next &rarr;
+            </Link>
+          </div>
         </div>
       </section>
-
-     
     </Container>
   );
 }

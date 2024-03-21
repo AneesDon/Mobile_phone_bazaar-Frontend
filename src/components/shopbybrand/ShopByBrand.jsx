@@ -19,7 +19,7 @@ const card = [{
 },{
 
   src:redmi,
-  alt:'Redmi'
+  alt:'Mi'
 
 }
 ,{
