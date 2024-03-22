@@ -18,7 +18,7 @@ import {setAddress} from '../../../store/cartSlice'
 
 function ShippingAddress() {
 
-  
+  const navigate = useNavigate()
   const token = Cookies.get('token')
   const [address, setAddress] = useState()
   const { register,handleSubmit } = useForm()
@@ -27,6 +27,10 @@ function ShippingAddress() {
   const discount = useSelector((state) => state.cart.discount)
 
   const cart = useSelector((state) => state.cart.products)
+  console.log(cart);
+  if(cart.length == 0){
+    navigate('/')
+  }
   
 
   useEffect(()=>{
@@ -80,7 +84,7 @@ function ShippingAddress() {
   }
   console.log(orderAddress);
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+  
   const handleCheckout = () => {
     if(orderAddress){
       localStorage.setItem('orderAddress', orderAddress)

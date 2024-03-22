@@ -78,12 +78,12 @@ const handleCancle = (id)=> {
     <ul role="list" className="divide-y divide-gray-200">
                   { orders && orders.map((order, index) => (
                     <>
-                    <div key={order.id} className="">
+                    <div key={order?.id} className="">
                       <li className="flex py-6 sm:py-6 ">
                         <div className="flex-shrink-0">
                           <img
-                            src={"http://127.0.0.1:8000/"+order.product_details[0].image.image}
-                            alt={order.name}
+                            src={"http://127.0.0.1:8000/"+order?.product_details[0]?.image?.image}
+                            alt={order?.name}
                             className="sm:h-38 sm:w-38 h-24 w-24 rounded-md object-contain object-center"
                           />
                         </div>
@@ -94,27 +94,27 @@ const handleCancle = (id)=> {
                               <div className="flex justify-between">
                                 <h3 className="text-sm">
                                   <Link
-                                    to={`/profile/order-details/${order.id}`}
+                                    to={`/profile/order-details/${order?.id}`}
                                     className="font-semibold text-black"
                                   >
-                                    {order.product_details[0].product}
+                                    {order?.product_details[0]?.product}
                                   </Link>
                                 </h3>
                               </div>
                               <div className="mt-1 flex text-sm">
                                 <p className="text-sm text-gray-500">
-                                  (1/{order.product_details.length}) 
+                                  (1/{order?.product_details?.length}) 
                                 </p>
-                                {order.product_details[0] ? (
+                                {order?.product_details[0] ? (
                                   <p className="ml-4 border-l border-gray-200 pl-4 text-sm text-gray-500">
-                                    {order.product_details[0].ram}/{order.product_details[0].rom}GB
+                                    {order?.product_details[0]?.ram}/{order?.product_details[0]?.rom}GB
                                   </p>
                                   
                                 ) : null}
                               </div>
                               <div className="mt-1 flex items-end">
                                 <p className="text-sm font-medium text-gray-900 pb-2">
-                                  {order.total_amount}₹ 
+                                  {order?.total_amount}₹ 
                                 </p>
                                 &nbsp;&nbsp;
                               </div>
@@ -129,12 +129,12 @@ const handleCancle = (id)=> {
                             <div className=' text-right'>
                                 
                             <button className=' text-white bg-orange-500 h-8 w-28 rounded-md hover:bg-orange-300'
-                            onClick={()=>handleCancle(order.id)}
+                            onClick={()=>handleCancle(order?.id)}
                             >
                                 Cancel Order
                             </button>
                             <br/>
-                            <Link to={`/profile/order-details/${order.id}`}>
+                            <Link to={`/profile/order-details/${order?.id}`}>
                             <button className=' text-black bg-white h-8 w-28 rounded-md hover:bg-black hover:text-white border border-black'>
                                 View Order
                             </button>   

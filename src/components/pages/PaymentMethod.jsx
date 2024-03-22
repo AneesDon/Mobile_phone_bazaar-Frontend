@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '../Button'
 import {Home , WalletCards, NotepadText} from 'lucide-react'
 import Input from '../Input'
@@ -24,8 +24,19 @@ function PaymentMethod() {
   const navigate = useNavigate()
   const token = Cookies.get('token')
   console.log(token);
-  const addCardHandler = async(data) => {
 
+  console.log(cart);
+
+  useEffect(()=>{
+    if(cart.length == 0){
+      navigate('/')
+    }
+  },[])
+
+
+
+
+  const addCardHandler = async(data) => {
     await axios.post(('/api/user-management/card-details/'),{
       card_number:data.cardNumber,
       card_name:data.cardName,
@@ -42,7 +53,7 @@ function PaymentMethod() {
       }
       console.log(res.data);
     }).catch((error) => {
-      console.log(error.response);
+      console.log(error);
   
       if (error.response && error.response.status === 400) {
           if (error.response.data && error.response.data.card_number && error.response.data.card_number[0]) {

@@ -4,7 +4,7 @@ import { Modal } from 'react-responsive-modal';
 import Container from '../Container'
 import { Trash , ShoppingBag } from 'lucide-react';
 import  Button  from '../Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {Home , WalletCards, NotepadText} from 'lucide-react'
 import qr from '../../assets/upi-qr.png'
 import '../../App.css'
@@ -31,17 +31,24 @@ function Summary() {
 
   const location = useLocation();
   const data = location.state;
-  const [method,setMethod ]= useState(data)
-const [open, setOpen] = useState(false);
-const [address, setAddress] = useState(false);
+  const [method, setMethod] = useState(data);
+  const [open, setOpen] = useState(false);
+  const [address, setAddress] = useState(false);
+  const navigate = useNavigate();
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
+  const cart = useSelector((state) => state.cart.products);
+  const price = useSelector((state) => state.cart.totalPrice);
+  const discount = useSelector((state) => state.cart.discount);
+  const token = Cookies.get("token");
+  const addressId = localStorage.getItem("orderAddress");
 
-const onOpenModal = () => setOpen(true);
-const onCloseModal = () => setOpen(false);
-const cart = useSelector((state) => state.cart.products)
-const price = useSelector((state) => state.cart.totalPrice)
-const discount = useSelector((state) => state.cart.discount)
-const token = Cookies.get('token')
-const addressId = localStorage.getItem('orderAddress')
+
+useEffect(()=>{
+  if(cart.length == 0){
+    navigate('/')
+  }
+},[])
 
 
   useEffect(()=>{
