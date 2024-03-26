@@ -65,7 +65,7 @@ function EnterOTP() {
                   Enter OTP
                   </h2>
                 <p class="mt-2 text-sm text-gray-600">
-                We have share a code of your registered email address
+                We have shared a code on your registered email address
                 {/* {"  "}{userData ? userData.email : ""} */}
                 
               

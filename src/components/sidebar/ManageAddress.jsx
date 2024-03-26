@@ -59,7 +59,7 @@ const handleDelete= (id) => {
 
 
 const token = Cookies.get('token');
-console.log(token);
+
 const fetchUserAddress = async () => {
   try {
     const response = await axios.get('/api/user-management/get-user-address/', {
@@ -67,12 +67,12 @@ const fetchUserAddress = async () => {
         Authorization: "Bearer " + token,
       }
     }).then((res)=>{
-      console.log(res.data);
+     
       setUserAddress(res.data)
     })
 
   } catch (error) {
-    console.log(error);
+  ;
   }
 };
 

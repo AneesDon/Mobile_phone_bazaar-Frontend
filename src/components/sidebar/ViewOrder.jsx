@@ -23,11 +23,11 @@ function ViewOrder() {
         },
       })
       .then((res) => {
-        console.log(res.data);
+       
         setOrders(res.data[0]);
       })
       .catch((error) => {
-        console.log(error);
+        
       });
   }, []);
 

@@ -20,12 +20,6 @@ import "react-toastify/dist/ReactToastify.css";
 import success_toast_msg from '../toast/success_tost';
 
 
-
-
-
-
-
-
 function Summary() {
 
 

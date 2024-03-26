@@ -40,7 +40,7 @@ function Forgetpassword() {
                 toast_msg(res.response.data.msg)
                 setSent(true)
               }else{
-                toast_msg('No User Found')
+                console.log(res);
               }
             }
 

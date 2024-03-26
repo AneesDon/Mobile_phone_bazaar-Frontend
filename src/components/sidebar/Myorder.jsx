@@ -34,11 +34,11 @@ function Myorder() {
         },
       })
       .then((res) => {
-        console.log(res.data);
+    
         setOrders(res.data);
       })
       .catch((error) => {
-        console.log(error);
+     
       });
   }
 
@@ -61,10 +61,10 @@ const handleCancle = (id)=> {
         id:orderId
       }).then((res)=>{
           success_toast_msg(res.data.message)
-          console.log(res.data);
+   
           fetchOrders()
       }).catch((error)=>{
-          console.log(error);
+          
       })
   }
 

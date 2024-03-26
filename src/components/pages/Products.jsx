@@ -23,24 +23,8 @@ const filters = [
         { value: 'Oneplus', label: 'Oneplus' },
         { value: 'Motorola', label: 'Motorola' },
         { value: 'Oppo', label: 'Oppo' },
-      ],
-    },
-    {
-      id: 'ram',
-      name: 'RAM',
-      options: [
-        { value: '4', label: '4GB' },
-        { value: '6', label: '6GB' },
-        { value: '8', label: 'Above 6GB' },
-      ],
-    },
-    {
-      id: 'rom',
-      name: 'ROM',
-      options: [
-        { value: '64', label: '64GB' },
-        { value: '128', label: '128GB' },
-        { value: '256', label: 'Above 128GB' },
+        { value: 'Apple', label: 'Apple' },
+        { value: 'Vivo', label: 'Vivo' },
       ],
     },
   ]
@@ -80,7 +64,6 @@ function Products() {
     }
     
     useEffect(() => {
-      console.log("Yooo");
       try {
         if (brand) {
           axios.get(`/api/product-management/product/${brand}`)
