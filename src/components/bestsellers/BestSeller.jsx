@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useDispatch } from "react-redux"
 import { addProduct } from "../../../store/cartSlice"
+import success_toast_msg from '../toast/success_tost'
+import { ToastContainer } from 'react-toastify'
+
 
 
 function BestSeller({product}) {
@@ -13,6 +16,8 @@ function BestSeller({product}) {
   const dispatch = useDispatch();
   
   const handleAddToCart = (id) => {
+
+    success_toast_msg("Added To Cart")
     dispatch(addProduct({
       productId: product[id]?.id,
       name: product[id]?.name,
@@ -29,6 +34,7 @@ function BestSeller({product}) {
   
   return (
     <>
+    <ToastContainer/>
       <Container>
         <div className="pb-10">
           <p className="text-center text-3xl pt-16">Our Best Seller</p>

@@ -6,6 +6,8 @@ import inHand from '../assets/Samsung-Galaxy-S24-Ultra-In-Hand.png'
 import addToCart from '../services/CartServices'
 import { useDispatch } from "react-redux"
 import { addProduct } from "../../store/cartSlice"
+import success_toast_msg from './toast/success_tost'
+import { ToastContainer } from 'react-toastify'
 
 function ProductDetailComponent({product}) {
     
@@ -15,7 +17,7 @@ function ProductDetailComponent({product}) {
     const dispatch = useDispatch();
 
     const addToCartHandler = ()=> {
-
+      success_toast_msg("Added To Cart")
       dispatch(addProduct({
         productId: product?.id,
         name: product?.name,
@@ -32,6 +34,7 @@ function ProductDetailComponent({product}) {
 
   return (
     <>
+      <ToastContainer/>
       <section className="overflow-hidden">
         <div className="mx-auto max-w-5xl px-5 py-8">
           <div className="mx-auto flex flex-wrap items-center lg:w-4/5">

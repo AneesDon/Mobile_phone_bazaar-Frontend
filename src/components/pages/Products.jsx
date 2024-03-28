@@ -9,7 +9,8 @@ import axios from 'axios'
 import { set } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { addProduct } from '../../../store/cartSlice'
-
+import success_toast_msg from '../toast/success_tost'
+import { ToastContainer } from 'react-toastify'
 
 
 const filters = [
@@ -90,6 +91,7 @@ function Products() {
     const dispatch = useDispatch();
   
     const handleAddToCart = (id) => {
+      success_toast_msg("Added To Cart")
       dispatch(addProduct({
         productId: product[id]?.id,
         name: product[id]?.name,
@@ -107,6 +109,7 @@ function Products() {
 
   return (
     <Container>
+      <ToastContainer/>
       <Breadcrumbs list={bread} />
 
       <section className="w-full">

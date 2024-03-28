@@ -1,0 +1,90 @@
+@startuml
+
+class UserProfile {
+    username
+    email
+    password
+    phone_number
+    is_activel
+    is_superuserl
+    is_staffl
+    +__str__()
+}
+
+class UserAddress {
+    address_line1
+    address_line2
+    city_district
+    pincode
+    state
+    +__str__()
+}
+
+class Order {
+    total_amount
+    is_deliveredl
+    expected_delivery   
+    payment_method
+    +__str__()
+}
+
+class OrderDetails {
+    +__str__()
+}
+
+class Product {
+    name
+    brand
+    priceat
+    discountat
+    +__str__()
+}
+
+class ProductFeatures {
+    screen_size
+    ram
+    rom
+    battery
+    color
+    front_camera
+    rear_camera
+    +__str__()
+}
+
+class ProductImage {
+    image
+    +__str__()
+}
+
+class Review {
+    comment
+    rating
+    +__str__()
+}
+
+class OtpToken {
+    otp_code
+}
+
+class CardDetails {
+    card_number
+    card_name
+    card_expiry
+    cvv
+    +__str__()
+}
+
+UserProfile "1" --> "1..*" UserAddress : has
+UserProfile "1" --> "0..1" OtpToken : has
+UserProfile "1" --> "0..*" CardDetails : has
+
+Order "*" --> "1" UserProfile : placed by
+Order "*" --> "1" UserAddress : delivered to
+Order "1" --> "0..*" OrderDetails : consists
+OrderDetails "1" --> "1" Product : includes
+
+Product "1" --> "1" ProductFeatures : has
+Product "1" --> "0..*" ProductImage : has
+Product "*" --> "0..*" Review : reviewed by
+
+@enduml
