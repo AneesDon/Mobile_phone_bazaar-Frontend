@@ -17,7 +17,7 @@ function BestSeller({product}) {
   
   const handleAddToCart = (id) => {
 
-    success_toast_msg("Added To Cart")
+    success_toast_msg(`${product[id]?.name}  added to your cart. Happy shopping!`)
     dispatch(addProduct({
       productId: product[id]?.id,
       name: product[id]?.name,

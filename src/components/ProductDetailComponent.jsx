@@ -17,7 +17,7 @@ function ProductDetailComponent({product}) {
     const dispatch = useDispatch();
 
     const addToCartHandler = ()=> {
-      success_toast_msg("Added To Cart")
+      success_toast_msg(`${product?.name} added to your cart. Happy shopping!`) 
       dispatch(addProduct({
         productId: product?.id,
         name: product?.name,
