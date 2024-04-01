@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
+
   .header-text {
     @apply font-bold text-3xl mb-4 bg-black; 
   }
@@ -38,4 +38,3 @@
   }
 
 
-}

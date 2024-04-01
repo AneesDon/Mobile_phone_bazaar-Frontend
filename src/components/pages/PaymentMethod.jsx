@@ -56,10 +56,10 @@ function PaymentMethod() {
       console.log(error);
   
       if (error.response && error.response.status === 400) {
-          if (error.response.data && error.response.data.card_number && error.response.data.card_number[0]) {
-              toast_msg(error.response.data.card_number[0]);
-          } else if (error.response.data && error.response.data.cvv && error.response.data.cvv[0]) {
-              toast_msg(error.response.data.cvv[0]);
+          if (error.response.data && error.response.data.card_number) {
+              toast_msg(error.response.data.card_number.error);
+          } else if (error.response.data && error.response.data.cvv) {
+              toast_msg(error.response.data.cvv.error);
           } else {
               console.error("Unexpected error response:", error.response.data);          
           }
@@ -67,7 +67,7 @@ function PaymentMethod() {
           console.error("Unexpected error status:", error.response.status);
          
       }
-  });
+  }); 
 
   }
 
