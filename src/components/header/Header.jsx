@@ -91,7 +91,9 @@ function Header() {
             </svg> 
 
           </span>
+          <Link to={'/'}>
           <span className="font-bold">Mobile-Phone-Bazaar</span>
+          </Link>
         </div>
         <div className="hidden lg:block">
           <ul className="inline-flex space-x-8">
