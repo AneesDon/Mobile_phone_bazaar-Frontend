@@ -72,6 +72,7 @@ function ProductDetails() {
         }
       )
       .then((res) => {
+        fetchReviews()
         console.log(res.data);
       })
       .catch((error) => {
@@ -79,7 +80,13 @@ function ProductDetails() {
       });
     setReview("");
   };
-  useEffect(() => {
+
+
+  useEffect(()=>{
+    fetchReviews()
+  })
+
+  const fetchReviews = () => {
     axios
       .get(`/api/product-management/get-product-review/${productId}`)
       .then((res) => {
@@ -87,8 +94,8 @@ function ProductDetails() {
       })
       .catch((error) => {
         console.log(error);
-      });
-  }, [review]);
+      });}
+
 
   const [products, setProducts] = useState("");
 

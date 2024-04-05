@@ -30,6 +30,7 @@ function ShippingAddress() {
   console.log(cart);
   if(cart.length == 0){
     navigate('/')
+
   }
   
 
@@ -124,7 +125,7 @@ function ShippingAddress() {
                           size={18}
                           fillOpacity={6}
                           fill="gray"
-                        />
+                        />~
                         Shipping Address
                       </Link>
                     </li>
